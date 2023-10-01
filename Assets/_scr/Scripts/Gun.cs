@@ -4,9 +4,13 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.AffordanceSystem.State;
 
+[RequireComponent(typeof(XRGrabInteractable))]
 public class Gun : MonoBehaviour
 {
     [SerializeField] private GunData gunData;
+    [SerializeField] private Transform muzzle;
+    [SerializeField] private ParticleSystem muzzleFlash;
+
     float timeOfNextShot = 0.0f;
     bool isFiring = false;
 
@@ -29,6 +33,8 @@ public class Gun : MonoBehaviour
         if (Input.GetMouseButtonUp(0)) {
             OnDeactivate(new DeactivateEventArgs());
         }
+
+        Debug.DrawRay(muzzle.transform.position, muzzle.forward, Color.red);
     }
 #endif
 
@@ -67,15 +73,14 @@ public class Gun : MonoBehaviour
     private void Fire() {
         string line = "Shot";
 
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, gunData.range)) {
+        if (Physics.Raycast(muzzle.position, transform.forward, out RaycastHit hit, gunData.range)) {
             line = "Shot and hit " + hit.transform.name + ' ' + (Vector3.Distance(transform.position, hit.point)) + "m away.";
+            
+            // What happens when we hit something.
         }
+        muzzleFlash.Play();
 
         Debug.Log(line);
         timeOfNextShot = Time.time + 1.0f / gunData.fireRate;
-    }
-
-    private void OnGunShot() {
-        // Some muzzle flash effects or bullet particle
     }
 }

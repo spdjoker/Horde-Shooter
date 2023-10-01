@@ -8,8 +8,9 @@ using UnityEngine.XR.Interaction.Toolkit.AffordanceSystem.State;
 public class Gun : MonoBehaviour
 {
     [SerializeField] private GunData gunData;
-    [SerializeField] private Transform muzzle;
-    [SerializeField] private ParticleSystem muzzleFlash;
+    [SerializeField] private ParticleSystem flashParticleSystem;
+    [SerializeField] private ParticleSystem impactParticleSystem;
+    [SerializeField] private TrailRenderer bulletTrailRenderer;
 
     float timeOfNextShot = 0.0f;
     bool isFiring = false;
@@ -34,7 +35,7 @@ public class Gun : MonoBehaviour
             OnDeactivate(new DeactivateEventArgs());
         }
 
-        Debug.DrawRay(muzzle.transform.position, muzzle.forward, Color.red);
+        Debug.DrawRay(flashParticleSystem.transform.position, flashParticleSystem.transform.forward, Color.red);
     }
 #endif
 
@@ -57,6 +58,21 @@ public class Gun : MonoBehaviour
         isFiring = false;
     }
 
+    private bool CanFire() => Time.time > timeOfNextShot;
+
+    // Shoots bullet
+    private void Fire() {
+        RaycastHit hit;
+        Physics.Raycast(flashParticleSystem.transform.position, transform.forward, out hit, gunData.range);
+
+        flashParticleSystem.Play();
+
+        TrailRenderer trail = Instantiate(bulletTrailRenderer, flashParticleSystem.transform.position, Quaternion.identity);
+        StartCoroutine(SpawnTrail(trail, hit));
+
+        timeOfNextShot = Time.time + 1.0f / gunData.fireRate;
+    }
+
     // Runs alongside update for automatic weapons
     private IEnumerator AutoFire() {
         while (isFiring) {
@@ -67,20 +83,26 @@ public class Gun : MonoBehaviour
         }
     }
 
-    private bool CanFire() => Time.time > timeOfNextShot;
+    private IEnumerator SpawnTrail(TrailRenderer trail, RaycastHit hit) {
+        float time = 0;
+        Vector3 startPosition = trail.transform.position;
 
-    // Shoots bullet
-    private void Fire() {
-        string line = "Shot";
-
-        if (Physics.Raycast(muzzle.position, transform.forward, out RaycastHit hit, gunData.range)) {
-            line = "Shot and hit " + hit.transform.name + ' ' + (Vector3.Distance(transform.position, hit.point)) + "m away.";
-            
-            // What happens when we hit something.
+        if (hit.collider == null) {
+            hit.point = startPosition + flashParticleSystem.transform.forward * gunData.range;
         }
-        muzzleFlash.Play();
 
-        Debug.Log(line);
-        timeOfNextShot = Time.time + 1.0f / gunData.fireRate;
+        while (time < 1.0f) {
+            trail.transform.position = Vector3.Lerp(startPosition, hit.point, time);
+            time += Time.deltaTime / trail.time;
+
+            yield return null;
+        }
+
+        trail.transform.position = hit.point;
+        // Spawn if there was a hit
+        if (hit.collider != null) {
+            Instantiate(impactParticleSystem, hit.point, Quaternion.LookRotation(hit.normal));
+        }
+        Destroy(trail.gameObject, trail.time);
     }
 }

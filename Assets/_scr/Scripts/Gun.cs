@@ -91,7 +91,7 @@ public class Gun : MonoBehaviour
             hit.point = startPosition + flashParticleSystem.transform.forward * gunData.range;
         }
 
-        while (time < 1.0f) {
+        while (time < 1git .0f) {
             trail.transform.position = Vector3.Lerp(startPosition, hit.point, time);
             time += Time.deltaTime / trail.time;
 

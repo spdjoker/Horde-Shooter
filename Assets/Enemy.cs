@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -33,7 +34,7 @@ public class Enemy : MonoBehaviour
     void FixedUpdate()
     {
         if (hasGem) {
-            TryMoveTowards(spawnPosition, 0.001f);
+            TryMoveTowards(spawnPosition, enemyData.range);
             return;
         }
 
@@ -49,6 +50,7 @@ public class Enemy : MonoBehaviour
     }
 
     bool TryMoveTowards(Vector3 position, float radius) {
+        position.y = transform.position.y;
         transform.LookAt(position);
         position = position - transform.position;
 

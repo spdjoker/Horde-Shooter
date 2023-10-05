@@ -102,6 +102,11 @@ public class Gun : MonoBehaviour
         // Spawn if there was a hit
         if (hit.collider != null) {
             Instantiate(impactParticleSystem, hit.point, Quaternion.LookRotation(hit.normal));
+            IDamageable entity;
+            if (hit.collider.TryGetComponent<IDamageable>(out entity))
+            {
+                entity.Damage(gunData.damage);
+            }
         }
         Destroy(trail.gameObject, trail.time);
     }

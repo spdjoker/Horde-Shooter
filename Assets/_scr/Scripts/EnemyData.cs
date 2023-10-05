@@ -10,12 +10,11 @@ public class EnemyData : ScriptableObject
     public float speed;
     public float range;
     public int goldOnDrop;
-    public TeamFlags teamFlags;
+    public TargetFags teamFlags;
 
-    [Flags] public enum TeamFlags {
-        Red = 1,
-        Green = 2,
-        Blue = 4,
+    [Flags] public enum TargetFags {
+        Gem = 1,
+        Players = 2,
     }  
     
 }

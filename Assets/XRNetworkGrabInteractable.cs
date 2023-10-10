@@ -14,7 +14,7 @@ public class XRNetworkGrabInteractable : MonoBehaviour
     {
         GetComponent<XRGrabInteractable>().selectEntered.AddListener(OnSelectEnter);
         photonView = GetComponent<PhotonView>();
-        photonView.OwnershipTransfer = OwnershipOption.Takeover;
+        photonView.OwnershipTransfer = OwnershipOption.Request;
     }
 
     // Update is called once per frame

@@ -13,7 +13,6 @@ public class Enemy : MonoBehaviour, IDamageable
     int health;
 
     [SerializeField] private Rigidbody rigidBody;
-    [SerializeField] private Transform gem;
     [SerializeField] private Transform player;
     private Vector3 spawnPosition;
 
@@ -23,15 +22,7 @@ public class Enemy : MonoBehaviour, IDamageable
     private static readonly int CHASER_COUNT = 3;
 
     private void Start() {
-        if (enemyData == null) {
-            throw new System.Exception("Uh oh, someone forgot to add data to an enemy... The enemy's name was " + name);
-        }
-
         health = enemyData.startHealth;
-
-        if (gem == null) {
-            throw new System.Exception("The enemy " + name + " doesn't have any target, set it to the gem!");
-        }
 
         spawnPosition = transform.position;
         if (enemyData.teamFlags.HasFlag(EnemyData.TargetFags.Gem))
@@ -49,8 +40,9 @@ public class Enemy : MonoBehaviour, IDamageable
 
         if (enemyData.teamFlags.HasFlag(EnemyData.TargetFags.Players))
         {
-            int player = Random.Range(0, 2);
+            int player = TeamManager.Instance.assignedTeam;
             Material mat = (player == 0) ? TeamManager.Instance.redMaterial : TeamManager.Instance.blueMaterial;
+            this.player = TeamManager.Instance.player;
             GetComponent<MeshRenderer>().material = mat;
         }
 
@@ -64,12 +56,12 @@ public class Enemy : MonoBehaviour, IDamageable
             return;
         }
 
-        if (targetPlayers) {
+        if (targetPlayers && enemyData.teamFlags.HasFlag(EnemyData.TargetFags.Players)) {
             TryMoveTowards(player.position, enemyData.range);
             return;
         }
 
-        if (TryMoveTowards(gem.position, enemyData.range + (gemPickedUp ? enemyData.range : 0))) {
+        if (TryMoveTowards(TeamManager.Instance.gem.position, enemyData.range + (gemPickedUp ? enemyData.range : 0))) {
             return;
         }
         if (!gemPickedUp)
@@ -97,8 +89,9 @@ public class Enemy : MonoBehaviour, IDamageable
 
         // Temporary animation
         GetComponent<MeshRenderer>().material = TeamManager.Instance.greenMaterial;
+        Debug.Log("SHOULD BE GREEN!");
 
-        gem.SetParent(transform);
+        TeamManager.Instance.gem.SetParent(transform);
     }
 
     public void Damage(int amount)
@@ -109,7 +102,7 @@ public class Enemy : MonoBehaviour, IDamageable
             // Drop gem;
             if (hasGem)
             {
-                gem.SetParent(null);
+                TeamManager.Instance.gem.SetParent(null);
                 gemPickedUp = false;
             }
             if (!targetPlayers && enemies.Count > 0) {

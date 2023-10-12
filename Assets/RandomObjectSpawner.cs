@@ -6,22 +6,28 @@ public class RandomObjectSpawner : MonoBehaviour
 {
     //Enemies to spawn
     [SerializeField]
-    private GameObject Zombie;
+    private GameObject zombie;
 
     //Spawn intervals
-    [SerializeField]
-    private float zombieInterval = 5f;
+    [SerializeField] private float zombieInterval = 5f;
+    [SerializeField] private float randomIntervalRange = 1f;
+    [SerializeField] private float spawnPositionVariance = 3f;
 
     void Start()
     {//Each enemy needs a coroutine (interval, enemyName)
-        zombieInterval = Random.Range(10f, 20f);
-        StartCoroutine(spawnEnemy(zombieInterval, Zombie));
+        StartCoroutine(SpawnEnemy(RandomInterval(), zombie));
     }
-    private IEnumerator spawnEnemy(float interval, GameObject enemy)
+
+    private float RandomInterval() => Random.Range(zombieInterval - randomIntervalRange, zombieInterval + randomIntervalRange);
+
+    private IEnumerator SpawnEnemy(float interval, GameObject enemy)
     {
         yield return new WaitForSeconds(interval);
-        GameObject newEnemy = Instantiate(enemy, new Vector3(Random.Range(-5f, 5), Random.Range(-6f, 6f), 0), Quaternion.identity);
-        StartCoroutine(spawnEnemy(interval, enemy));
+        float varX = Random.Range(-spawnPositionVariance, spawnPositionVariance);
+        float varY = Random.Range(-spawnPositionVariance, spawnPositionVariance);
+        Vector3 position = new Vector3(transform.position.x + varX, 1.0f, transform.position.z + varY);
+        Instantiate(enemy, position, Quaternion.identity);
+        StartCoroutine(SpawnEnemy(RandomInterval(), enemy));
     }
 
 }

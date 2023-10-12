@@ -10,6 +10,10 @@ public class TeamManager : MonoBehaviour
     public Material greenMaterial;
     public Material blueMaterial;
 
+    public Transform gem;
+    public Transform player;
+    public int assignedTeam;
+
     private void Awake()
     {
         if (Instance)

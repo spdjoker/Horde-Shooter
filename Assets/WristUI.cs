@@ -22,7 +22,7 @@ public class WristUI : MonoBehaviour
     }
 
     // Update is called once per frame
-    public void Update()
+    public void ToggleMenu(InputAction.CallbackContext context)
     {
         _wristUICanvas.enabled = !_wristUICanvas.enabled;
     }

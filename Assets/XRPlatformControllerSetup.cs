@@ -35,8 +35,8 @@ namespace Unity.Template.VR
             {
                 if (loader.name.Equals("Oculus Loader"))
                 {
-                    m_RightController.SetActive(false);
-                    m_LeftController.SetActive(false);
+                    m_RightController.SetActive(true);
+                    m_LeftController.SetActive(true);
                     m_RightControllerOculusPackage.SetActive(true);
                     m_LeftControllerOculusPackage.SetActive(true);
                 }

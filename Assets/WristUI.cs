@@ -5,6 +5,7 @@ public class WristUI : MonoBehaviour
 {
     public InputActionAsset inputActions;
 
+    private GameObject cube;
     private Canvas _wristUICanvas;
     private InputAction _menu;
     // Start is called before the first frame update

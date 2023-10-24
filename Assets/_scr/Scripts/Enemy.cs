@@ -89,7 +89,6 @@ public class Enemy : MonoBehaviour, IDamageable
 
         // Temporary animation
         GetComponent<MeshRenderer>().material = TeamManager.Instance.greenMaterial;
-        Debug.Log("SHOULD BE GREEN!");
 
         TeamManager.Instance.gem.SetParent(transform);
     }
@@ -105,9 +104,19 @@ public class Enemy : MonoBehaviour, IDamageable
                 TeamManager.Instance.gem.SetParent(null);
                 gemPickedUp = false;
             }
-            if (!targetPlayers && enemies.Count > 0) {
-                Enemy e = enemies.Dequeue();
-                e.targetPlayers = false;
+            if (!targetPlayers) {
+                Enemy e = null;
+                while (!e && enemies.Count > 0)
+                {
+                    e = enemies.Dequeue();
+                }
+                if (e)
+                {
+                    e.targetPlayers = false;
+                } else
+                {
+                    chasers--;
+                }
             }
             Drop();
             Destroy(gameObject);

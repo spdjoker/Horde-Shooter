@@ -1,22 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[System.Serializable]
+public struct MonsterData {
+    public GameObject prefab;
+    public float spawnInterval;
+}
 public class RandomObjectSpawner : MonoBehaviour
 {
     //Enemies to spawn
-    [SerializeField]
-    private GameObject zombie;
-    private GameObject skeleton;
-    private GameObject spider;
-
-    [SerializeField] private float baseInterval = 1f;
-    [SerializeField] private float zombieInterval = 5f;
-    [SerializeField] private float skeletonInterval = 10f;
-    [SerializeField] private float spiderInterval = 15f;
+    [SerializeField] private List <MonsterData> mobs;
     [SerializeField] private float randomIntervalRange = 1f;
     [SerializeField] private float spawnPositionVariance = 3f;
-
 
     //Roll a random number from 0 - 100 and return a random enemy's interval
     //Roll a random number from 0 - 4 and return a random enemy object
@@ -26,30 +21,29 @@ public class RandomObjectSpawner : MonoBehaviour
     float intervalRandomizer(){
         float range = Random.Range(0, 101);
         if(range < 25){
-            return zombieInterval;
+            return mobs[0].spawnInterval;
         }else if (range < 75){
-            return skeletonInterval;
+            return mobs[1].spawnInterval;
         }else {//Else range < 100
-            return spiderInterval;
+            return mobs[2].spawnInterval;
         }
     }
     GameObject enemyRandomizer(){
         float range = Random.Range(0, 5);
         if(range == 0){
-            return zombie;
+            return mobs[0].prefab;
         }else if (range == 1){
-            return skeleton;
+            return mobs[1].prefab;
         }else {//Else range is 2, 3 or 4
-            return spider;
+            return mobs[2].prefab;
         }
     }
     void Start()
     {//Each enemy needs a coroutine (interval, enemyName)
-        StartCoroutine(SpawnEnemy(RandomInterval(), enemyRandomizer));
+        StartCoroutine(SpawnEnemy(RandomInterval(), enemyRandomizer()));
     }
     //Original: private float RandomInterval() => Random.Range(zombieInterval - randomIntervalRange, zombieInterval + randomIntervalRange);
-    private float RandomInterval() => Random.Range(baseInterval - randomIntervalRange,  baseInterval + randomIntervalRange);
-
+    private float RandomInterval() => Random.Range(intervalRandomizer() - randomIntervalRange,  intervalRandomizer() + randomIntervalRange);
     private IEnumerator SpawnEnemy(float interval, GameObject enemy)
     {
         yield return new WaitForSeconds(interval);

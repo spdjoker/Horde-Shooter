@@ -3,9 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Photon.Pun.UtilityScripts;
+
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
+
+    public GameObject XROrigin;
+    Hashtable customProperties = new Hashtable();
+    public Vector3[] spawnPositions;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +31,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Debug.Log("Connected To Server!");
         base.OnConnectedToMaster();
         RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 10;
+        roomOptions.MaxPlayers = 8;
         roomOptions.IsVisible = true;
         roomOptions.IsOpen = true;
 
@@ -35,12 +42,59 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Joined a Room");
         base.OnJoinedRoom();
+        
+        if (PhotonNetwork.IsMasterClient) {
+            customProperties.Add("SpawnIndex", 0);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(customProperties);
+        }
+        else
+        {
+            int spawnpoint = (int)PhotonNetwork.CurrentRoom.CustomProperties["SpawnIndex"] + 1;
+            customProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+            customProperties["SpawnIndex"] = spawnpoint;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(customProperties);
+            XROrigin.transform.position = spawnPositions[spawnpoint];
+        }
+        /*if (PhotonNetwork.IsMasterClient) {
+            byte spawnSpot = 0;
+            spawnSpot.Set(0, false);
+
+            
+            XROrigin.transform.position = spawnPositions[0];
+            customProperties.Add("SpawnLocationsAvailable", spawnSpot);
+            customProperties.Add("SpawnIndex", 0);
+            PhotonNetwork.LocalPlayer.CustomProperties = customProperties;
+
+        }*/
+        
+
+        
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log("A new player joined the room");
+        // if (PhotonNetwork.IsMasterClient) {
+        //     BitArray spots = (BitArray)PhotonNetwork.LocalPlayer.CustomProperties["SpawnLocationsAvailable"];
+        //     int spot = 0;
+
+        //     Hashtable customProperties = new Hashtable();
+        //     if ()
+        //     customProperties.Add("SpawnIndex", spots.);
+        //     PhotonNetwork.LocalPlayer.CustomProperties = customProperties;
+        // }
         base.OnPlayerEnteredRoom(newPlayer);
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
     }
 }
 
+/*
+if player is master
+    create hash table
+
+*/

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
+
 public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
 {
     private Vector3 spawnLocation;
-    public int spawnIndex;
     private GameObject playerBody;
     public override void OnJoinedRoom()
     {

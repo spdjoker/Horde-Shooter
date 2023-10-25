@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 7702035162152217604}
   - component: {fileID: 7702035162152217605}
   - component: {fileID: 7702035162152217606}
+  - component: {fileID: 6852451810538146783}
+  - component: {fileID: 2006718891912009176}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -130,5 +132,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 44f2cef5c9dbe24488d47a4450f2f7be, type: 2}
   rigidBody: {fileID: 7702035162152217605}
-  gem: {fileID: 0}
   player: {fileID: 0}
+--- !u!114 &6852451810538146783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7702035162152217607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 2006718891912009176}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &2006718891912009176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7702035162152217607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 0
+  m_TeleportEnabled: 0
+  m_TeleportIfDistanceGreaterThan: 3

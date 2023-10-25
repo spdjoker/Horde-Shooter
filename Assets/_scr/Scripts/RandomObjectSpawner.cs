@@ -1,14 +1,17 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RandomObjectSpawner : MonoBehaviour
+public class RandomObjectSpawner : MonoBehaviourPun
 {
     //Enemies to spawn
     [SerializeField]
     private GameObject zombie;
     private GameObject skeleton;
     private GameObject spider;
+
+    private bool spawning = false;
 
     [SerializeField] private float baseInterval = 1f;
     [SerializeField] private float zombieInterval = 5f;
@@ -43,9 +46,13 @@ public class RandomObjectSpawner : MonoBehaviour
             return spider;
         }
     }
-    void Start()
+    void Update()
     {//Each enemy needs a coroutine (interval, enemyName)
-        StartCoroutine(SpawnEnemy(RandomInterval(), enemyRandomizer));
+        if (photonView.IsMine && PhotonNetwork.IsConnected && !spawning)
+        {
+            spawning = true;
+            StartCoroutine(SpawnEnemy(RandomInterval(), zombie));
+        }
     }
     //Original: private float RandomInterval() => Random.Range(zombieInterval - randomIntervalRange, zombieInterval + randomIntervalRange);
     private float RandomInterval() => Random.Range(baseInterval - randomIntervalRange,  baseInterval + randomIntervalRange);
@@ -56,9 +63,13 @@ public class RandomObjectSpawner : MonoBehaviour
         float varX = Random.Range(-spawnPositionVariance, spawnPositionVariance);
         float varY = Random.Range(-spawnPositionVariance, spawnPositionVariance);
         Vector3 position = new Vector3(transform.position.x + varX, 1.0f, transform.position.z + varY);
-        Instantiate(enemy, position, Quaternion.identity);
-        StartCoroutine(SpawnEnemy(RandomInterval(), enemy));
-
+        //int numPlayers = (int)PhotonNetwork.CurrentRoom.CustomProperties["SpawnIndex"] + 1;
+        for (int i = 0; i < 2; i++)
+        {
+            Debug.Log("i:" + i.ToString());
+            PhotonNetwork.InstantiateRoomObject(i == 0 ? "Red Enemy" : "Blue Enemy", position, Quaternion.identity);
+        }
+        spawning = false;
     }
 
 }

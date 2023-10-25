@@ -6,13 +6,12 @@ public class TeamManager : MonoBehaviour
 {
     public static TeamManager Instance { get; private set; }
 
-    public Material redMaterial;
-    public Material greenMaterial;
-    public Material blueMaterial;
+    public List<Material> teams;
+    public Material testCaptureMaterial;
 
     public Transform gem;
     public Transform player;
-    public int assignedTeam;
+    public int assignedTeam = -1;
 
     private void Awake()
     {
@@ -23,4 +22,6 @@ public class TeamManager : MonoBehaviour
         }
         Instance = this;
     }
+
+    public Material GetColorMaterial() => teams[assignedTeam % teams.Count];
 }

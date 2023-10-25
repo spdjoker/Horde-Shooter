@@ -13,6 +13,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public GameObject XROrigin;
     Hashtable customProperties = new Hashtable();
     public Vector3[] spawnPositions;
+    public GameObject Spawner;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,6 +48,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient) {
             customProperties.Add("SpawnIndex", 0);
             PhotonNetwork.CurrentRoom.SetCustomProperties(customProperties);
+            TeamManager.Instance.assignedTeam = 0;
         }
         else
         {
@@ -53,8 +56,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             customProperties = PhotonNetwork.CurrentRoom.CustomProperties;
             customProperties["SpawnIndex"] = spawnpoint;
             PhotonNetwork.CurrentRoom.SetCustomProperties(customProperties);
-            XROrigin.transform.position = spawnPositions[spawnpoint];
+            TeamManager.Instance.assignedTeam = spawnpoint;
+            //Debug.Log(spawnpoint);
+            //XROrigin.transform.position = spawnPositions[spawnpoint];
+            
         }
+        Instantiate(Spawner, new Vector3(0, 1, 0), Quaternion.identity);
         /*if (PhotonNetwork.IsMasterClient) {
             byte spawnSpot = 0;
             spawnSpot.Set(0, false);
@@ -66,9 +73,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             PhotonNetwork.LocalPlayer.CustomProperties = customProperties;
 
         }*/
-        
 
-        
+
+
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)

@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -45,7 +46,8 @@ public class RandomObjectSpawner : MonoBehaviour
     }
     void Start()
     {//Each enemy needs a coroutine (interval, enemyName)
-        StartCoroutine(SpawnEnemy(RandomInterval(), enemyRandomizer));
+        if (PhotonNetwork.IsMasterClient)
+            StartCoroutine(SpawnEnemy(RandomInterval(), zombie));
     }
     //Original: private float RandomInterval() => Random.Range(zombieInterval - randomIntervalRange, zombieInterval + randomIntervalRange);
     private float RandomInterval() => Random.Range(baseInterval - randomIntervalRange,  baseInterval + randomIntervalRange);
@@ -56,9 +58,13 @@ public class RandomObjectSpawner : MonoBehaviour
         float varX = Random.Range(-spawnPositionVariance, spawnPositionVariance);
         float varY = Random.Range(-spawnPositionVariance, spawnPositionVariance);
         Vector3 position = new Vector3(transform.position.x + varX, 1.0f, transform.position.z + varY);
-        Instantiate(enemy, position, Quaternion.identity);
+        int numPlayers = (int)PhotonNetwork.CurrentRoom.CustomProperties["SpawnIndex"] + 1;
+        Debug.Log(numPlayers);
+        for (int i = 0; i < numPlayers; i++) {
+            Debug.Log("i:" + i.ToString());
+            PhotonNetwork.InstantiateRoomObject(i == 0 ? "Red Enemy" : "Blue Enemy", position, Quaternion.identity);
+        }
         StartCoroutine(SpawnEnemy(RandomInterval(), enemy));
-
     }
 
 }

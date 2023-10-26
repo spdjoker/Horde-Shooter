@@ -1,10 +1,11 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour, IDamageable
+public class Enemy : MonoBehaviourPun, IDamageable
 {
     [SerializeField] EnemyData enemyData;
     private static bool gemPickedUp = false;
@@ -22,6 +23,11 @@ public class Enemy : MonoBehaviour, IDamageable
     private static readonly int CHASER_COUNT = 3;
 
     private void Start() {
+        if (!photonView.IsMine && PhotonNetwork.IsConnected)
+        {
+            return;
+        }
+
         health = enemyData.startHealth;
 
         spawnPosition = transform.position;
@@ -40,10 +46,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
         if (enemyData.teamFlags.HasFlag(EnemyData.TargetFags.Players))
         {
-            int player = TeamManager.Instance.assignedTeam;
-            Material mat = (player == 0) ? TeamManager.Instance.redMaterial : TeamManager.Instance.blueMaterial;
-            this.player = TeamManager.Instance.player;
-            GetComponent<MeshRenderer>().material = mat;
+
         }
 
 
@@ -51,6 +54,11 @@ public class Enemy : MonoBehaviour, IDamageable
 
     void FixedUpdate()
     {
+        if (!photonView.IsMine && PhotonNetwork.IsConnected)
+        {
+            return;
+        }
+
         if (hasGem) {
             TryMoveTowards(spawnPosition, enemyData.range);
 
@@ -102,7 +110,7 @@ public class Enemy : MonoBehaviour, IDamageable
         hasGem = true;
 
         // Temporary animation
-        GetComponent<MeshRenderer>().material = TeamManager.Instance.greenMaterial;
+        //GetComponent<MeshRenderer>().material = TeamManager.Instance.greenMaterial;
 
         TeamManager.Instance.gem.SetParent(transform);
     }

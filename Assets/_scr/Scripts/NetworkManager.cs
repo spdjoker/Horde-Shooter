@@ -46,6 +46,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient) {
             customProperties.Add("SpawnIndex", 0);
             PhotonNetwork.CurrentRoom.SetCustomProperties(customProperties);
+            TeamManager.Instance.assignedTeam = 0;
+            PhotonNetwork.InstantiateRoomObject("Spawner", new Vector3(0.0f, 1.0f, 20.0f), Quaternion.identity);
         }
         else
         {
@@ -54,6 +56,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             customProperties["SpawnIndex"] = spawnpoint;
             PhotonNetwork.CurrentRoom.SetCustomProperties(customProperties);
             XROrigin.transform.position = spawnPositions[spawnpoint];
+            TeamManager.Instance.assignedTeam = spawnpoint;
         }
         /*if (PhotonNetwork.IsMasterClient) {
             byte spawnSpot = 0;

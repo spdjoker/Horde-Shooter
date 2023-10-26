@@ -62,7 +62,7 @@ public class RandomObjectSpawner : MonoBehaviourPun
         yield return new WaitForSeconds(interval);
         float varX = Random.Range(-spawnPositionVariance, spawnPositionVariance);
         float varY = Random.Range(-spawnPositionVariance, spawnPositionVariance);
-        Vector3 position = new Vector3(transform.position.x + varX, 1.0f, transform.position.z + varY);
+        Vector3 position = new Vector3(transform.position.x + varX, 5f, transform.position.z + varY);
         //int numPlayers = (int)PhotonNetwork.CurrentRoom.CustomProperties["SpawnIndex"] + 1;
         for (int i = 0; i < 2; i++)
         {

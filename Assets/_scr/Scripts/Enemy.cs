@@ -81,7 +81,7 @@ public class Enemy : MonoBehaviourPun, IDamageable
 
     private void OnTriggerEnter(Collider other)
     {
-        //This will break if other things have trigger colliders
+        //This will break if other things have trigger colliders, make this more specfifc
         Lose();
     }
 

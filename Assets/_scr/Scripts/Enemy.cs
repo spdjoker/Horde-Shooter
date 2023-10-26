@@ -71,7 +71,7 @@ public class Enemy : MonoBehaviour, IDamageable
     }
 
     bool TryMoveTowards(Vector3 position, float radius) {
-        position.y = transform.position.y;
+        //position.y = transform.position.y;
         transform.LookAt(position);
         position = position - transform.position;
 

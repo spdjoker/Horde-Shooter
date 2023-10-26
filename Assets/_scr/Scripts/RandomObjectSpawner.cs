@@ -45,7 +45,7 @@ public class RandomObjectSpawner : MonoBehaviour
     }
     void Start()
     {//Each enemy needs a coroutine (interval, enemyName)
-        StartCoroutine(SpawnEnemy(RandomInterval(), enemyRandomizer));
+        StartCoroutine(SpawnEnemy(RandomInterval(), zombie));
     }
     //Original: private float RandomInterval() => Random.Range(zombieInterval - randomIntervalRange, zombieInterval + randomIntervalRange);
     private float RandomInterval() => Random.Range(baseInterval - randomIntervalRange,  baseInterval + randomIntervalRange);
@@ -55,7 +55,7 @@ public class RandomObjectSpawner : MonoBehaviour
         yield return new WaitForSeconds(interval);
         float varX = Random.Range(-spawnPositionVariance, spawnPositionVariance);
         float varY = Random.Range(-spawnPositionVariance, spawnPositionVariance);
-        Vector3 position = new Vector3(transform.position.x + varX, 1.0f, transform.position.z + varY);
+        Vector3 position = new Vector3(transform.position.x + varX, 5f, transform.position.z + varY);
         Instantiate(enemy, position, Quaternion.identity);
         StartCoroutine(SpawnEnemy(RandomInterval(), enemy));
 

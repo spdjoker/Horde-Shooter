@@ -44,4 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d777dbbf516419f49a7d47f6ebf3312f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myObjects: []
+  zombie: {fileID: 3164584849068365909, guid: c295148f471f3224387cdb9b3bd21cc8, type: 3}
+  baseInterval: 1
+  zombieInterval: 5
+  skeletonInterval: 10
+  spiderInterval: 15
+  randomIntervalRange: 1
+  spawnPositionVariance: 3

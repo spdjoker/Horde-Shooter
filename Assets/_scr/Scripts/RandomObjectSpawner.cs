@@ -10,11 +10,11 @@ public class RandomObjectSpawner : MonoBehaviour
     private GameObject skeleton;
     private GameObject spider;
 
-    [SerializeField] private float baseInterval = 1f;
+    private float baseInterval = 10f;
     [SerializeField] private float zombieInterval = 5f;
     [SerializeField] private float skeletonInterval = 10f;
     [SerializeField] private float spiderInterval = 15f;
-    [SerializeField] private float randomIntervalRange = 1f;
+    private float randomIntervalRange = 10f;
     [SerializeField] private float spawnPositionVariance = 3f;
 
 

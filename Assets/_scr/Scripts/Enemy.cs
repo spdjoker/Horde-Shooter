@@ -53,6 +53,7 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         if (hasGem) {
             TryMoveTowards(spawnPosition, enemyData.range);
+
             return;
         }
 
@@ -70,13 +71,26 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        //This will break if other things have trigger colliders
+        Lose();
+    }
+
     bool TryMoveTowards(Vector3 position, float radius) {
-        //position.y = transform.position.y;
+        position.y = transform.position.y;
         transform.LookAt(position);
         position = position - transform.position;
 
         if (position.magnitude > radius) {
-            rigidBody.velocity = position.normalized * enemyData.speed;
+            //Write the gravity velocity before it's overwritten
+            float fallVector = rigidBody.velocity.y;
+            Vector3 moveVector = position.normalized * enemyData.speed;
+
+            //Reapply gravity velocity after moveVector is determined
+            moveVector.y = fallVector;
+            rigidBody.velocity = moveVector;
+        
             return true;
         }
 
@@ -131,5 +145,10 @@ public class Enemy : MonoBehaviour, IDamageable
     public void Drop()
     {
         // Drop coins
+    }
+
+    public void Lose()
+    {
+        Debug.Log("You Lose");
     }
 }

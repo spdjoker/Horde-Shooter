@@ -23,8 +23,6 @@ public class RandomObjectSpawner : MonoBehaviour
     //Roll a random number from 0 - 100 and return a random enemy's interval
     //Roll a random number from 0 - 4 and return a random enemy object
 
-    //THIS CODE HAS NOT BEEN TESTED. BEWARE.
-
     float intervalRandomizer(){
         float range = Random.Range(0, 101);
         if(range < 25){
@@ -59,12 +57,14 @@ public class RandomObjectSpawner : MonoBehaviour
         float varY = Random.Range(-spawnPositionVariance, spawnPositionVariance);
         Vector3 position = new Vector3(transform.position.x + varX, 5f, transform.position.z + varY);
         //Instantiate(enemy, position, Quaternion.identity);
+        
         if(PhotonNetwork.IsMasterClient){
-            PhotonNetwork.Instantiate("BLUE_SKELETON", position, Quaternion.identity, 0);
+            PhotonNetwork.Instantiate("Black_Widow", position, Quaternion.identity, 0);
         }else{
             PhotonNetwork.Instantiate("RED_SKELETON", position, Quaternion.identity, 0);
         }
-            
+        
+
         StartCoroutine(SpawnEnemy(RandomInterval(), enemy));
 
     }

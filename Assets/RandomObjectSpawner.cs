@@ -43,8 +43,8 @@ public class RandomObjectSpawner : MonoBehaviour
                 return mobs[2].prefab;
             }
         } else {
-            // Handle the case where there are not enough elements in the list.
-            return null; // You can return null or handle the error as needed.
+            //When there are not enough elements in the list
+            return null;
         }
     }
     
@@ -61,8 +61,7 @@ public class RandomObjectSpawner : MonoBehaviour
         float varY = Random.Range(-spawnPositionVariance, spawnPositionVariance);
         Vector3 position = new Vector3(transform.position.x + varX, 1.0f, transform.position.z + varY);
         Instantiate(enemy, position, Quaternion.identity);
-        StartCoroutine(SpawnEnemy(RandomInterval(), enemy));
-
+        StartCoroutine(SpawnEnemy(RandomInterval(), enemyRandomizer()));
     }
 
 }

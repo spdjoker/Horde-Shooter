@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using Photon.Pun;
 
 public class Enemy : MonoBehaviour, IDamageable
 {
@@ -73,7 +74,10 @@ public class Enemy : MonoBehaviour, IDamageable
 
     private void OnTriggerEnter(Collider other)
     {
-        //This will break if other things have trigger colliders
+        if(other.tag != "Finish"){
+            return;
+        }
+        
         Lose();
     }
 
@@ -133,7 +137,7 @@ public class Enemy : MonoBehaviour, IDamageable
                 }
             }
             Drop();
-            Destroy(gameObject);
+            PhotonNetwork.Destroy(gameObject);
         }
     }
 

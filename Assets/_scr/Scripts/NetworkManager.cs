@@ -23,6 +23,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     void ConnectToServer()
     {
         PhotonNetwork.ConnectUsingSettings();
+        
         Debug.Log("Try Connecting To Server");
     }
 
@@ -55,18 +56,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.SetCustomProperties(customProperties);
             XROrigin.transform.position = spawnPositions[spawnpoint];
         }
-        /*if (PhotonNetwork.IsMasterClient) {
-            byte spawnSpot = 0;
-            spawnSpot.Set(0, false);
 
-            
-            XROrigin.transform.position = spawnPositions[0];
-            customProperties.Add("SpawnLocationsAvailable", spawnSpot);
-            customProperties.Add("SpawnIndex", 0);
-            PhotonNetwork.LocalPlayer.CustomProperties = customProperties;
-
-        }*/
-        
 
         
     }
@@ -74,15 +64,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log("A new player joined the room");
-        // if (PhotonNetwork.IsMasterClient) {
-        //     BitArray spots = (BitArray)PhotonNetwork.LocalPlayer.CustomProperties["SpawnLocationsAvailable"];
-        //     int spot = 0;
-
-        //     Hashtable customProperties = new Hashtable();
-        //     if ()
-        //     customProperties.Add("SpawnIndex", spots.);
-        //     PhotonNetwork.LocalPlayer.CustomProperties = customProperties;
-        // }
         base.OnPlayerEnteredRoom(newPlayer);
     }
 

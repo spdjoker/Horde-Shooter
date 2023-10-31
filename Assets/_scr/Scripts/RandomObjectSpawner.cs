@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+
 
 public class RandomObjectSpawner : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class RandomObjectSpawner : MonoBehaviour
     [SerializeField] private float zombieInterval = 5f;
     [SerializeField] private float skeletonInterval = 10f;
     [SerializeField] private float spiderInterval = 15f;
-    private float randomIntervalRange = 10f;
+    private float randomIntervalRange = 5f;
     [SerializeField] private float spawnPositionVariance = 3f;
 
 
@@ -56,7 +58,13 @@ public class RandomObjectSpawner : MonoBehaviour
         float varX = Random.Range(-spawnPositionVariance, spawnPositionVariance);
         float varY = Random.Range(-spawnPositionVariance, spawnPositionVariance);
         Vector3 position = new Vector3(transform.position.x + varX, 5f, transform.position.z + varY);
-        Instantiate(enemy, position, Quaternion.identity);
+        //Instantiate(enemy, position, Quaternion.identity);
+        if(PhotonNetwork.IsMasterClient){
+            PhotonNetwork.Instantiate("BLUE_SKELETON", position, Quaternion.identity, 0);
+        }else{
+            PhotonNetwork.Instantiate("RED_SKELETON", position, Quaternion.identity, 0);
+        }
+            
         StartCoroutine(SpawnEnemy(RandomInterval(), enemy));
 
     }

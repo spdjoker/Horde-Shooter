@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cf10082b9f9f4845abbe9c6dc37c412, type: 3}
   m_Name: Prototype
   m_EditorClassIdentifier: 
-  startHealth: 5
+  startHealth: 1
   speed: 3
   range: 1
   goldOnDrop: 0

@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using Photon.Pun;
 
+
 public class Enemy : MonoBehaviour, IDamageable
 {
     [SerializeField] EnemyData enemyData;
@@ -74,7 +75,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag != "Finish"){
+        if(other.tag != "Finish" || !hasGem){
             return;
         }
         

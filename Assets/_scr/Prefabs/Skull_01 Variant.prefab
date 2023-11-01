@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skull_01 Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 2415163299948868153, guid: c82d70dc17d418843aedaaefc4907473,
+        type: 3}
+      propertyPath: m_TagString
+      value: Finish
+      objectReference: {fileID: 0}
     - target: {fileID: 3084880623642568835, guid: c82d70dc17d418843aedaaefc4907473,
         type: 3}
       propertyPath: m_RootOrder

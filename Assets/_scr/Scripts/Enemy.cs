@@ -4,11 +4,14 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 
-public class Enemy : MonoBehaviour, IDamageable
+public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 {
     [SerializeField] EnemyData enemyData;
+
+    [SerializeField] NetworkManager networkManager;
     private static bool gemPickedUp = false;
     bool hasGem = false;
     bool targetPlayers = true;
@@ -18,6 +21,8 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private Transform player;
     private Vector3 spawnPosition;
 
+    private Vector3[] playerSpawnPositions;
+
     private static Queue<Enemy> enemies = new Queue<Enemy>();
     private static int chasers = 0;
 
@@ -25,9 +30,10 @@ public class Enemy : MonoBehaviour, IDamageable
 
     private void Start() {
         health = enemyData.startHealth;
+        playerSpawnPositions = networkManager.spawnPositions;
 
         spawnPosition = transform.position;
-        if (enemyData.teamFlags.HasFlag(EnemyData.TargetFags.Gem))
+        if (enemyData.teamFlags.HasFlag(EnemyData.TargetFlags.Gem))
         {
             if (chasers < CHASER_COUNT)
             {
@@ -40,7 +46,7 @@ public class Enemy : MonoBehaviour, IDamageable
             }
         }
 
-        if (enemyData.teamFlags.HasFlag(EnemyData.TargetFags.Players))
+        if (enemyData.teamFlags.HasFlag(EnemyData.TargetFlags.Players))
         {
             int player = TeamManager.Instance.assignedTeam;
             Material mat = (player == 0) ? TeamManager.Instance.redMaterial : TeamManager.Instance.blueMaterial;
@@ -59,9 +65,17 @@ public class Enemy : MonoBehaviour, IDamageable
             return;
         }
 
-        if (targetPlayers && enemyData.teamFlags.HasFlag(EnemyData.TargetFags.Players)) {
-            TryMoveTowards(player.position, enemyData.range);
-            return;
+        if (targetPlayers && enemyData.teamFlags.HasFlag(EnemyData.TargetFlags.Players)) {
+            //This needs to be per player
+            //TryMoveTowards(player.position, enemyData.range);
+            if (PhotonNetwork.IsMasterClient){
+                TryMoveTowards(playerSpawnPositions[0], enemyData.range);
+                return;
+            }else{
+                TryMoveTowards(playerSpawnPositions[1], enemyData.range);
+                return;
+            }
+            
         }
 
         if (TryMoveTowards(TeamManager.Instance.gem.position, enemyData.range + (gemPickedUp ? enemyData.range : 0))) {
@@ -155,5 +169,12 @@ public class Enemy : MonoBehaviour, IDamageable
     public void Lose()
     {
         Debug.Log("You Lose");
+    }
+
+    [PunRPC]
+    private void RPC_ChangeEnemyState(){
+        
+        gemPickedUp = !gemPickedUp;
+
     }
 }

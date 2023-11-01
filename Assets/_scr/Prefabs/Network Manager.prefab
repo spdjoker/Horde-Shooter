@@ -45,6 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e017096b566fdc040adcaa0ff4e90aeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  XROrigin: {fileID: 0}
+  spawnPositions:
+  - {x: 2, y: 2, z: 0}
+  - {x: -2, y: 2, z: 0}
 --- !u!114 &6600767112485303221
 MonoBehaviour:
   m_ObjectHideFlags: 0

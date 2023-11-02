@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+
 [System.Serializable]
 public struct MonsterData {
-    public GameObject prefab;
+    public string prefab;
     public float spawnInterval;
 }
 public class RandomObjectSpawner : MonoBehaviour
@@ -32,7 +34,7 @@ public class RandomObjectSpawner : MonoBehaviour
             return 0.0f;
         }
     }
-    GameObject enemyRandomizer() {
+    string enemyRandomizer() {
         if (mobs.Count >= 3) {
             float range = Random.Range(0, 5);
             if (range == 0) {
@@ -54,14 +56,21 @@ public class RandomObjectSpawner : MonoBehaviour
     }
     //Original: private float RandomInterval() => Random.Range(zombieInterval - randomIntervalRange, zombieInterval + randomIntervalRange);
     private float RandomInterval() => Random.Range(intervalRandomizer() - randomIntervalRange,  intervalRandomizer() + randomIntervalRange);
-    private IEnumerator SpawnEnemy(float interval, GameObject enemy)
+    private IEnumerator SpawnEnemy(float interval, string enemy)
     {
         yield return new WaitForSeconds(interval);
         float varX = Random.Range(-spawnPositionVariance, spawnPositionVariance);
         float varY = Random.Range(-spawnPositionVariance, spawnPositionVariance);
         Vector3 position = new Vector3(transform.position.x + varX, 1.0f, transform.position.z + varY);
-        Instantiate(enemy, position, Quaternion.identity);
+
+        if(PhotonNetwork.IsMasterClient){
+            PhotonNetwork.Instantiate("BLUE_" + enemy, position, Quaternion.identity, 0);
+        }else{
+            PhotonNetwork.Instantiate("RED_" + enemy, position, Quaternion.identity, 0);
+        }
+        
         StartCoroutine(SpawnEnemy(RandomInterval(), enemyRandomizer()));
+        
     }
 
 }

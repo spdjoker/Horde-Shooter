@@ -90,9 +90,10 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag != "Finish" || !hasGem){
+            
             return;
         }
-        
+        print(other.gameObject);
         Lose();
     }
 

@@ -150,7 +150,7 @@ PrefabInstance:
     - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
         type: 3}
       propertyPath: mobs.Array.size
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
         type: 3}
@@ -170,7 +170,17 @@ PrefabInstance:
     - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
         type: 3}
       propertyPath: mobs.Array.data[2].prefab
-      value: SKELETON
+      value: SPIDER
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
+        type: 3}
+      propertyPath: mobs.Array.data[3].prefab
+      value: SPIDER
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
+        type: 3}
+      propertyPath: mobs.Array.data[4].prefab
+      value: SPIDER
       objectReference: {fileID: 0}
     - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
         type: 3}
@@ -185,6 +195,16 @@ PrefabInstance:
     - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
         type: 3}
       propertyPath: mobs.Array.data[2].spawnInterval
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
+        type: 3}
+      propertyPath: mobs.Array.data[3].spawnInterval
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
+        type: 3}
+      propertyPath: mobs.Array.data[4].spawnInterval
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2711334310141726975, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,

@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skull_01 Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 2415163299948868153, guid: c82d70dc17d418843aedaaefc4907473,
+        type: 3}
+      propertyPath: m_TagString
+      value: Finish
+      objectReference: {fileID: 0}
     - target: {fileID: 3084880623642568835, guid: c82d70dc17d418843aedaaefc4907473,
         type: 3}
       propertyPath: m_RootOrder
@@ -128,7 +133,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.2, y: 0.2, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &4435536440777317355
 PrefabInstance:
@@ -144,8 +149,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
         type: 3}
+      propertyPath: mobs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
+        type: 3}
       propertyPath: randomIntervalRange
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
+        type: 3}
+      propertyPath: mobs.Array.data[0].prefab
+      value: SKELETON
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
+        type: 3}
+      propertyPath: mobs.Array.data[1].prefab
+      value: SKELETON
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
+        type: 3}
+      propertyPath: mobs.Array.data[2].prefab
+      value: SKELETON
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
+        type: 3}
+      propertyPath: mobs.Array.data[0].spawnInterval
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
+        type: 3}
+      propertyPath: mobs.Array.data[1].spawnInterval
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
+        type: 3}
+      propertyPath: mobs.Array.data[2].spawnInterval
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2711334310141726975, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
         type: 3}

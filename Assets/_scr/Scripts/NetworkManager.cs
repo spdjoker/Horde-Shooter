@@ -5,21 +5,29 @@ using Photon.Pun;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Photon.Pun.UtilityScripts;
+using UnityEngine.UI;
+using TMPro;
 
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
 
     public GameObject XROrigin;
+    [SerializeField] TMP_Text readyText;
     Hashtable customProperties = new Hashtable();
     public Vector3[] spawnPositions;
-    // Start is called before the first frame update
+
+    private bool ready = false; 
+    private bool otherPlayerReady = false;
+
+
+
     void Start()
     {
         ConnectToServer();
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
-    // Update is called once per frame
     void ConnectToServer()
     {
         PhotonNetwork.ConnectUsingSettings();
@@ -47,6 +55,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient) {
             customProperties.Add("SpawnIndex", 0);
             PhotonNetwork.CurrentRoom.SetCustomProperties(customProperties);
+            XROrigin.transform.position = spawnPositions[0];
         }
         else
         {
@@ -71,6 +80,51 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+    }
+
+    public void OnClick_ReadyUp()
+    {
+        ready = !ready;
+       
+        
+        base.photonView.RPC("RPC_ChangeReadyState", RpcTarget.OthersBuffered);
+
+        checkIfEveryoneReady();
+    }
+
+    [PunRPC]
+    private void RPC_ChangeReadyState()
+    {
+        otherPlayerReady = !otherPlayerReady;
+        if(otherPlayerReady)
+        {
+            readyText.text = "Partner is Ready";
+        }else{
+            readyText.text = "";
+        }
+
+        checkIfEveryoneReady();
+        
+    }
+
+    private void checkIfEveryoneReady(){
+        if(!ready || !otherPlayerReady){
+            return;
+        }
+
+        if(PhotonNetwork.IsMasterClient){
+            PhotonNetwork.LoadLevel(1);
+            base.photonView.RPC("RPC_FixPositioning", RpcTarget.All);
+            XROrigin.transform.position = spawnPositions[0];
+        }
+    }
+    [PunRPC]
+    private void RPC_FixPositioning(){
+        if(PhotonNetwork.IsMasterClient){
+            XROrigin.transform.position = spawnPositions[0];
+        }else{
+            XROrigin.transform.position = spawnPositions[1];
+        }
     }
 }
 

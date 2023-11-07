@@ -28,9 +28,12 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
     private static readonly int CHASER_COUNT = 3;
 
+    Animator anim;
+
     private void Start() {
         health = enemyData.startHealth;
         playerSpawnPositions = networkManager.spawnPositions;
+        anim = GetComponent<Animator>();
 
         spawnPosition = transform.position;
         if (enemyData.teamFlags.HasFlag(EnemyData.TargetFlags.Gem))
@@ -61,6 +64,9 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
     {
         if (hasGem) {
             TryMoveTowards(spawnPosition, enemyData.range);
+            //New:
+            float move = TryMoveTowards(spawnPosition, enemyData.range);
+            anim.setFloat("speedh", move);
 
             return;
         }

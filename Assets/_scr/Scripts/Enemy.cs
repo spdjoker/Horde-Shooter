@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
     bool hasGem = false;
     bool targetPlayers = true;
     int health;
+    bool isAttacking = false;
 
     [SerializeField] private Rigidbody rigidBody;
     [SerializeField] private Transform player;
@@ -62,12 +63,9 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
     void FixedUpdate()
     {
+        anim.SetBool("attacking", isAttacking);
         if (hasGem) {
             TryMoveTowards(spawnPosition, enemyData.range);
-            //New:
-            float move = TryMoveTowards(spawnPosition, enemyData.range);
-            anim.setFloat("speedh", move);
-
             return;
         }
 
@@ -108,6 +106,12 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         transform.LookAt(position);
         position = position - transform.position;
 
+            //Test statements to see if the animations work
+            isAttacking = true;
+            //anim.SetBool("attacking", isAttacking); was here
+            StartCoroutine(Wait());
+            //isAttacking = false;
+
         if (position.magnitude > radius) {
             //Write the gravity velocity before it's overwritten
             float fallVector = rigidBody.velocity.y;
@@ -126,11 +130,26 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
     void GrabGem() {
         gemPickedUp = true;
         hasGem = true;
-
         // Temporary animation
         GetComponent<MeshRenderer>().material = TeamManager.Instance.greenMaterial;
 
         TeamManager.Instance.gem.SetParent(transform);
+    }
+    private IEnumerator Wait() {
+	    yield return new WaitForSeconds (5f);
+        isAttacking = false;
+    }
+    void OnCollisionEnter(Collision collision)
+    {
+        Enemy other = collision.gameObject.GetComponent<Enemy>();
+        if(other){
+            // HERE we know that the other object we collided with is an enemy
+            //The animation here should be changing the skeleton to be attacking
+            isAttacking = true;
+            //anim.SetBool("attacking", isAttacking);
+            StartCoroutine(Wait());
+            //The enemy asset should kill itself here, or in the coroutine
+        }
     }
 
     public void Damage(int amount)

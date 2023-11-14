@@ -16,6 +16,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] TMP_Text readyText;
     Hashtable customProperties = new Hashtable();
     public Vector3[] spawnPositions;
+    int room = 0;
 
     private bool ready = false; 
     private bool otherPlayerReady = false;
@@ -39,18 +40,33 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Connected To Server!");
         base.OnConnectedToMaster();
+
+        InitiliazeRoom(room);
+    }
+
+    public override void OnJoinedLobby()
+    {
+        base.OnJoinedLobby();
+    }
+
+    public void InitiliazeRoom(int roomNum)
+    {
+        
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = 8;
         roomOptions.IsVisible = true;
         roomOptions.IsOpen = true;
 
-        PhotonNetwork.JoinOrCreateRoom("Room 1", roomOptions, TypedLobby.Default);
+        PhotonNetwork.LoadLevel(roomNum);
+        PhotonNetwork.JoinOrCreateRoom(roomNum.ToString(), roomOptions, TypedLobby.Default);
+        
     }
 
     public override void OnJoinedRoom()
     {
         Debug.Log("Joined a Room");
         base.OnJoinedRoom();
+        
         
         if (PhotonNetwork.IsMasterClient) {
             customProperties.Add("SpawnIndex", 0);
@@ -69,7 +85,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         
     }
-
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log("A new player joined the room");
@@ -95,7 +110,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RPC_ChangeReadyState()
     {
-        otherPlayerReady = !otherPlayerReady;
+        otherPlayerReady = true;
         if(otherPlayerReady)
         {
             readyText.text = "Partner is Ready";
@@ -104,6 +119,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
 
         checkIfEveryoneReady();
+
         
     }
 
@@ -112,20 +128,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        if(PhotonNetwork.IsMasterClient){
-            PhotonNetwork.LoadLevel(1);
-            base.photonView.RPC("RPC_FixPositioning", RpcTarget.All);
-            XROrigin.transform.position = spawnPositions[0];
-        }
-    }
-    [PunRPC]
-    private void RPC_FixPositioning(){
-        if(PhotonNetwork.IsMasterClient){
+        room++;
+        PhotonNetwork.LeaveRoom();
+
+
+        /*if(PhotonNetwork.IsMasterClient){
             XROrigin.transform.position = spawnPositions[0];
         }else{
             XROrigin.transform.position = spawnPositions[1];
-        }
+        }*/
+        
     }
+
 }
 
 /*

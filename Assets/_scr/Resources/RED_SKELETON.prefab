@@ -1208,6 +1208,7 @@ MonoBehaviour:
     type: 3}
   rigidBody: {fileID: 2247013838348650521}
   player: {fileID: 0}
+  enemy: {fileID: 0}
 --- !u!65 &-6256610025137128934
 BoxCollider:
   m_ObjectHideFlags: 0

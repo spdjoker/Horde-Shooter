@@ -47,7 +47,7 @@ public class RandomObjectSpawner : MonoBehaviourPunCallbacks
     void Start()
     {//Each enemy needs a coroutine (interval, enemyName)
         
-        StartCoroutine(SpawnEnemy(interval, "SKELETON", delay));
+        StartCoroutine(SpawnEnemy(interval, enemyRandomizer(), delay));
         
     }
     private float RandomInterval() => Random.Range(interval - 1,  interval + 1);
@@ -56,9 +56,12 @@ public class RandomObjectSpawner : MonoBehaviourPunCallbacks
     {
         yield return new WaitForSeconds(interval + wait);
         
+        string genericEnemy = enemyRandomizer();
+
         if(PhotonNetwork.IsMasterClient){
             int coin = Random.Range(0, 2);
             int position = Random.Range(0, 4);
+
             
             if(coin == 0)
             {
@@ -76,7 +79,7 @@ public class RandomObjectSpawner : MonoBehaviourPunCallbacks
             PhotonNetwork.Instantiate("RED_" + enemy, position, Quaternion.identity, 0);
         }*/
         
-        StartCoroutine(SpawnEnemy(interval, "SKELETON", delay));
+        StartCoroutine(SpawnEnemy(interval, genericEnemy, delay));
         
     }
     [PunRPC]

@@ -3409,7 +3409,7 @@ GameObject:
   - component: {fileID: -1761648737912830386}
   - component: {fileID: 6079036799855750172}
   m_Layer: 0
-  m_Name: BLUE_SPIDER
+  m_Name: RED_SPIDER
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

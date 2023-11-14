@@ -45,6 +45,7 @@ public class ShopManagerScript : MonoBehaviour
         {
             coins -= shopItems[2, ButtonRef.GetComponent<ButtonInfo>().ItemID];
             //shopItems[2, ButtonRef.GetComponent<ButtonInfo>().ItemID]++; (Increases Price)
+            shopItems[3, ButtonRef.GetComponent<ButtonInfo>().ItemID]++;
             CoinsTXT.text = "Coins:" + coins.ToString();
             ButtonRef.GetComponent<ButtonInfo>().QuantityTxt.text = shopItems[3, ButtonRef.GetComponent<ButtonInfo>().ItemID].ToString();
             if (ButtonRef.GetComponent<ButtonInfo>().ItemID == 1) { 
@@ -56,15 +57,16 @@ public class ShopManagerScript : MonoBehaviour
             }
         }
     }
-    /*
-    private void OnTriggerEnter(Collider other)
+
+    public void OnTriggerEnter(Collider other)
     {
 
         if (other.transform.tag == "Coin")
         {
+            Destroy(other.gameObject);
             coins++;
             CoinsTXT.text = "Coins: " + coins.ToString();
-            Destroy(other.gameObject);
+            
         }
-    }*/
+    }
 }

@@ -14,12 +14,12 @@ public class CoinCollection : MonoBehaviour
         //shop_script = GetComponent<ShopManagerScript>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         if (other.transform.tag == "Coin")
         {
-            object p = ShopManager.coins++;
-            //shop_script.CoinsTXT.text = "Coins: " + shop_script.coins.ToString();
+            ShopManager.coins++;
+            ShopManager.CoinsTXT.text = "Coins: " + ShopManager.coins.ToString();
             Destroy(other.gameObject);
         }
     }

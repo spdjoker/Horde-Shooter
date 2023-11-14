@@ -61,7 +61,7 @@ public class RandomObjectSpawner : MonoBehaviour
         yield return new WaitForSeconds(interval);
         float varX = Random.Range(-spawnPositionVariance, spawnPositionVariance);
         float varY = Random.Range(-spawnPositionVariance, spawnPositionVariance);
-        Vector3 position = new Vector3(transform.position.x + varX, 1.0f, transform.position.z + varY);
+        Vector3 position = new Vector3(transform.position.x + varX, 5.0f, transform.position.z + varY);
 
         if(PhotonNetwork.IsMasterClient){
             PhotonNetwork.Instantiate("BLUE_" + enemy, position, Quaternion.identity, 0);

@@ -77,6 +77,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
             //TryMoveTowards(player.position, enemyData.range);
             if (PhotonNetwork.IsMasterClient){
                 TryMoveTowards(playerSpawnPositions[0], enemyData.range);
+                Debug.Log(playerSpawnPositions[0]);
                 return;
             }else{
                 TryMoveTowards(playerSpawnPositions[1], enemyData.range);
@@ -108,6 +109,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         position.y = transform.position.y;
         transform.LookAt(position);
         position = position - transform.position;
+
 
         if (position.magnitude > radius) {
             //Write the gravity velocity before it's overwritten

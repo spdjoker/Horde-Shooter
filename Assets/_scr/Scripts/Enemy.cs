@@ -22,13 +22,13 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
     [SerializeField] private PhotonView enemy;
     private Vector3 spawnPosition;
     private bool destoyed = false;
-
+    private bool invincible = false;
     private Vector3[] playerSpawnPositions;
 
     private static Queue<Enemy> enemies = new Queue<Enemy>();
     private static int chasers = 0;
 
-    private static readonly int CHASER_COUNT = 3;
+    private static readonly int CHASER_COUNT = 1;
 
     private void Start() {
         health = enemyData.startHealth;
@@ -76,12 +76,18 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
             //This needs to be per player
             //TryMoveTowards(player.position, enemyData.range);
             if (PhotonNetwork.IsMasterClient){
-                TryMoveTowards(playerSpawnPositions[0], enemyData.range);
-                return;
+                if(TryMoveTowards(playerSpawnPositions[0], enemyData.range)){
+                    return;
+                }
+                
             }else{
-                TryMoveTowards(playerSpawnPositions[1], enemyData.range);
-                return;
+                if(TryMoveTowards(playerSpawnPositions[1], enemyData.range)){
+                    return;
+                }
             }
+
+            Attack();
+            return;
             
         }
 
@@ -178,9 +184,18 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         // Drop coins
     }
 
+    public void Attack()
+    {
+        networkManager.PlayerLoseHealth();
+        if(photonView.IsMine)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
+    }
+
     public void Lose()
     {
-        Debug.Log("You Lose");
+       networkManager.LoseGame();
     }
 
     [PunRPC]

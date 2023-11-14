@@ -14,6 +14,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public GameObject XROrigin;
     [SerializeField] TMP_Text readyText;
+    [SerializeField] int TeamHealth;
     Hashtable customProperties = new Hashtable();
     public Vector3[] spawnPositions;
     int room = 0;
@@ -51,7 +52,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void InitiliazeRoom(int roomNum)
     {
-        
+        Debug.Log(roomNum);
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = 8;
         roomOptions.IsVisible = true;
@@ -70,6 +71,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         
         if (PhotonNetwork.IsMasterClient) {
             customProperties.Add("SpawnIndex", 0);
+            customProperties.Add("Health", TeamHealth);
+            
             PhotonNetwork.CurrentRoom.SetCustomProperties(customProperties);
             XROrigin.transform.position = spawnPositions[0];
         }
@@ -104,7 +107,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         
         base.photonView.RPC("RPC_ChangeReadyState", RpcTarget.OthersBuffered);
 
-        checkIfEveryoneReady();
+        CheckIfEveryoneReady();
     }
 
     [PunRPC]
@@ -118,12 +121,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             readyText.text = "";
         }
 
-        checkIfEveryoneReady();
+        CheckIfEveryoneReady();
 
         
     }
 
-    private void checkIfEveryoneReady(){
+    private void CheckIfEveryoneReady(){
         if(!ready || !otherPlayerReady){
             return;
         }
@@ -138,6 +141,31 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             XROrigin.transform.position = spawnPositions[1];
         }*/
         
+    }
+
+    public void PlayerLoseHealth(){
+        customProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+        customProperties["Health"] = (int)customProperties["Health"] - 1;
+        Debug.Log(customProperties["Health"]);
+
+        if((int)customProperties["Health"] <= 0){
+            LoseGame();
+            return;
+        }
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(customProperties);
+        return;
+    }
+
+    public void LoseGame(){
+        
+        base.photonView.RPC("RPC_ChangeLevel", RpcTarget.MasterClient);
+        
+    }
+
+    [PunRPC]
+    private void RPC_ChangeLevel(){
+        PhotonNetwork.LoadLevel(2);
     }
 
 }

@@ -1,22 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using TMPro;
 
 public class CoinCollection : MonoBehaviour
 {
-    private int Coin = 0;
+    public ShopManagerScript ShopManager;
 
-    public TextMeshProUGUI coinText;
+    private void Start()
+    {
+        //shop_script = GetComponent<ShopManagerScript>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-
-        if(other.transform.tag == "Coin")
+        if (other.transform.tag == "Coin")
         {
-            Coin++;
-            coinText.text = "Coin: " + Coin.ToString();
-            Debug.Log(Coin);
+            object p = ShopManager.coins++;
+            //shop_script.CoinsTXT.text = "Coins: " + shop_script.coins.ToString();
             Destroy(other.gameObject);
         }
     }

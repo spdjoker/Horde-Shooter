@@ -19,7 +19,9 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
     [SerializeField] private Rigidbody rigidBody;
     [SerializeField] private Transform player;
+    [SerializeField] private PhotonView enemy;
     private Vector3 spawnPosition;
+    private bool destoyed = false;
 
     private Vector3[] playerSpawnPositions;
 
@@ -52,6 +54,11 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
             Material mat = (player == 0) ? TeamManager.Instance.redMaterial : TeamManager.Instance.blueMaterial;
             this.player = TeamManager.Instance.player;
             GetComponent<MeshRenderer>().material = mat;
+        }
+
+        if(destoyed){
+            Debug.Log("Late Destoy");
+            PhotonNetwork.Destroy(gameObject);
         }
 
 
@@ -153,7 +160,11 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
                 }
             }
             Drop();
-            PhotonNetwork.Destroy(gameObject);
+            if(photonView.IsMine)
+            {
+                photonView.RPC("RPC_EnemyDeath", RpcTarget.OthersBuffered);
+                PhotonNetwork.Destroy(gameObject);
+            }
         }
     }
 
@@ -173,9 +184,10 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
     }
 
     [PunRPC]
-    private void RPC_ChangeEnemyState(){
+    private void RPC_EnemyDeath(){
         
-        gemPickedUp = !gemPickedUp;
+        destoyed = true;
+        
 
     }
 }

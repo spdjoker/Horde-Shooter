@@ -2,38 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System.Numerics;
+using Vector3 = UnityEngine.Vector3;
+using Quaternion = UnityEngine.Quaternion;
+using System.IO;
 
 [System.Serializable]
 public struct MonsterData {
     public string prefab;
     public float spawnInterval;
 }
-public class RandomObjectSpawner : MonoBehaviour
+public class RandomObjectSpawner : MonoBehaviourPunCallbacks
 {
     //Enemies to spawn
     [SerializeField] private List <MonsterData> mobs = new List<MonsterData>(5);
-    [SerializeField] private float randomIntervalRange = 1f;
-    [SerializeField] private float spawnPositionVariance = 3f;
+    [SerializeField] private float interval;
+    [SerializeField] private GameObject skull;
+    [SerializeField] private float delay;
+    [SerializeField] private Vector3[] enemySpawnPoints;
+
+    //[SerializeField] private float randomIntervalRange = 1f;
 
     //Roll a random number from 0 - 100 and return a random enemy's interval
     //Roll a random number from 0 - 4 and return a random enemy object
 
     //THIS CODE HAS NOT BEEN TESTED. BEWARE.
 
-    float intervalRandomizer() {
-        if (mobs.Count >= 3) {
-            float range = Random.Range(0, 101);
-            if (range < 25) {
-                return mobs[0].spawnInterval;
-            } else if (range < 75) {
-                return mobs[1].spawnInterval;
-            } else {
-                return mobs[2].spawnInterval;
-            }
-        } else {
-            return 0.0f;
-        }
-    }
     string enemyRandomizer() {
         if (mobs.Count >= 3) {
             float range = Random.Range(0, 5);
@@ -49,31 +43,61 @@ public class RandomObjectSpawner : MonoBehaviour
             return null;
         }
     }
-    
+    //ssss
     void Start()
     {//Each enemy needs a coroutine (interval, enemyName)
-        StartCoroutine(SpawnEnemy(RandomInterval(), enemyRandomizer()));
+        
+        StartCoroutine(SpawnEnemy(interval, "SKELETON", delay));
+        
     }
-    //Original: private float RandomInterval() => Random.Range(zombieInterval - randomIntervalRange, zombieInterval + randomIntervalRange);
-    private float RandomInterval() => Random.Range(intervalRandomizer() - randomIntervalRange,  intervalRandomizer() + randomIntervalRange);
-    private IEnumerator SpawnEnemy(float interval, string enemy)
+    private float RandomInterval() => Random.Range(interval - 1,  interval + 1);
+   
+    private IEnumerator SpawnEnemy(float interval, string enemy, float wait)
     {
-        yield return new WaitForSeconds(interval);
-        float varX = Random.Range(-spawnPositionVariance, spawnPositionVariance);
-        float varY = Random.Range(-spawnPositionVariance, spawnPositionVariance);
-        Vector3 position = new Vector3(transform.position.x + varX, 1.0f, transform.position.z + varY);
-
+        yield return new WaitForSeconds(interval + wait);
+        
         if(PhotonNetwork.IsMasterClient){
+            int coin = Random.Range(0, 2);
+            int position = Random.Range(0, 4);
+            
+            if(coin == 0)
+            {
+                photonView.RPC("RPC_SpawnEnemyMaster", RpcTarget.MasterClient, enemy, position);
+            }else{
+                photonView.RPC("RPC_SpawnEnemyOther", RpcTarget.OthersBuffered, enemy, position);
+            }
+        }
+        
+        
+
+        /*if(PhotonNetwork.IsMasterClient){
             PhotonNetwork.Instantiate("BLUE_" + enemy, position, Quaternion.identity, 0);
         }else{
             PhotonNetwork.Instantiate("RED_" + enemy, position, Quaternion.identity, 0);
-        }
+        }*/
         
-        StartCoroutine(SpawnEnemy(RandomInterval(), enemyRandomizer()));
+        StartCoroutine(SpawnEnemy(interval, "SKELETON", delay));
+        
+    }
+    [PunRPC]
+    private void RPC_SpawnEnemyMaster(string enemy, int position)
+    {
+
+        PhotonNetwork.Instantiate("BLUE_" + enemy, enemySpawnPoints[position], Quaternion.identity, 0);
         
     }
 
+    [PunRPC]
+    private void RPC_SpawnEnemyOther(string enemy, int position)
+    {
+
+        PhotonNetwork.Instantiate("RED_" + enemy, enemySpawnPoints[position], Quaternion.identity, 0);
+    }
+
 }
+
+
+
 
 /*
 using System.Collections;

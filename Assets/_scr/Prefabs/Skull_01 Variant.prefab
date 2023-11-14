@@ -144,6 +144,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
         type: 3}
+      propertyPath: skull
+      value: 
+      objectReference: {fileID: 2020518495873147571}
+    - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
+        type: 3}
+      propertyPath: interval
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
+        type: 3}
       propertyPath: baseInterval
       value: 5
       objectReference: {fileID: 0}
@@ -185,17 +195,17 @@ PrefabInstance:
     - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
         type: 3}
       propertyPath: mobs.Array.data[0].spawnInterval
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
         type: 3}
       propertyPath: mobs.Array.data[1].spawnInterval
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
         type: 3}
       propertyPath: mobs.Array.data[2].spawnInterval
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2130186172074123376, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
         type: 3}
@@ -269,3 +279,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b2eccd6953b9e04eae7afb0726ae2ff, type: 3}
+--- !u!1 &5238211786801679685 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8448732257694324398, guid: 2b2eccd6953b9e04eae7afb0726ae2ff,
+    type: 3}
+  m_PrefabInstance: {fileID: 4435536440777317355}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3272304051700154852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5238211786801679685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0

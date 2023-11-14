@@ -70,7 +70,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
     void FixedUpdate()
     {
-        anim.SetBool("attacking", isAttacking);
+
         if (hasGem) {
             TryMoveTowards(spawnPosition, enemyData.range);
             return;
@@ -120,9 +120,9 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         position = position - transform.position;
 
             //Test statements to see if the animations work
-            isAttacking = true;
+            //isAttacking = true;
             //anim.SetBool("attacking", isAttacking); was here
-            StartCoroutine(Wait());
+            //StartCoroutine(Wait());
             //isAttacking = false;
 
         if (position.magnitude > radius) {
@@ -149,20 +149,9 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         TeamManager.Instance.gem.SetParent(transform);
     }
     private IEnumerator Wait() {
-	    yield return new WaitForSeconds (5f);
+	    yield return new WaitForSeconds (10f);
         isAttacking = false;
-    }
-    void OnCollisionEnter(Collision collision)
-    {
-        Enemy other = collision.gameObject.GetComponent<Enemy>();
-        if(other){
-            // HERE we know that the other object we collided with is an enemy
-            //The animation here should be changing the skeleton to be attacking
-            isAttacking = true;
-            //anim.SetBool("attacking", isAttacking);
-            StartCoroutine(Wait());
-            //The enemy asset should kill itself here, or in the coroutine
-        }
+        Debug.Log("isAttacking is false, enemy should kill itself now");
     }
 
     public void Damage(int amount)
@@ -211,7 +200,11 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
     public void Attack()
     {
+        isAttacking = true;
+        anim.SetBool("attacking", isAttacking);
         networkManager.PlayerLoseHealth();
+        StartCoroutine(Wait());
+        anim.SetBool("attacking", isAttacking);
         if(photonView.IsMine)
         {
             PhotonNetwork.Destroy(gameObject);

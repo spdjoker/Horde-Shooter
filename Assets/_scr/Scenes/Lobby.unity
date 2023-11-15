@@ -441,7 +441,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1068287455}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.84}
+  m_LocalPosition: {x: 0, y: 0, z: -1.51}
   m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -452,7 +452,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 3}
+  m_AnchoredPosition: {x: -1, y: 1}
   m_SizeDelta: {x: 160, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1068287460
@@ -605,7 +605,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2009635921}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: -1, y: 0, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -777,7 +777,7 @@ PrefabInstance:
     - target: {fileID: 546079633611512246, guid: 3442afa1756d72c4aa5f8529cd78cfc8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 1.96
       objectReference: {fileID: 0}
     - target: {fileID: 546079633611512246, guid: 3442afa1756d72c4aa5f8529cd78cfc8,
         type: 3}
@@ -846,13 +846,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6633435287493759450, guid: 3442afa1756d72c4aa5f8529cd78cfc8,
         type: 3}
+      propertyPath: spawnPositions.Array.data[0].x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6633435287493759450, guid: 3442afa1756d72c4aa5f8529cd78cfc8,
+        type: 3}
       propertyPath: spawnPositions.Array.data[0].y
-      value: 2
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6633435287493759450, guid: 3442afa1756d72c4aa5f8529cd78cfc8,
+        type: 3}
+      propertyPath: spawnPositions.Array.data[1].x
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6633435287493759450, guid: 3442afa1756d72c4aa5f8529cd78cfc8,
         type: 3}
       propertyPath: spawnPositions.Array.data[1].y
-      value: 2
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6633435287493759450, guid: 3442afa1756d72c4aa5f8529cd78cfc8,
+        type: 3}
+      propertyPath: spawnPositions.Array.data[1].z
+      value: -3
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1409703451183472735, guid: 3442afa1756d72c4aa5f8529cd78cfc8, type: 3}

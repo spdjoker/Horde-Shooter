@@ -59,7 +59,7 @@ public class RandomObjectSpawner : MonoBehaviourPunCallbacks, IPunInstantiateMag
         
         if(PhotonNetwork.IsMasterClient){
             int coin = Random.Range(0, 2);
-            int position = Random.Range(0, 4);
+            int position = Random.Range(0, 3);
             
             if(coin == 0)
             {

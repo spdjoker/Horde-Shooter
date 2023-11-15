@@ -84,7 +84,7 @@ public class RandomObjectSpawner : MonoBehaviourPunCallbacks, IPunInstantiateMag
     private void RPC_SpawnEnemyMaster(string enemy, int position)
     {
 
-        //PhotonNetwork.Instantiate("BLUE_" + enemy, enemySpawnPoints[position], Quaternion.identity, 0);
+        PhotonNetwork.Instantiate("BLUE_" + enemy, enemySpawnPoints[position], Quaternion.identity, 0);
         
     }
 

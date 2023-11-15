@@ -16,4 +16,4 @@ MonoBehaviour:
   speed: 4
   range: 1
   goldOnDrop: 0
-  teamFlags: 2
+  teamFlags: -1

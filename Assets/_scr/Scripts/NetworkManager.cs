@@ -20,7 +20,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     int room = 0;
 
     private bool ready = false; 
-    private bool otherPlayerReady = false;
+    private bool otherPlayerReady = true;
 
 
 
@@ -58,7 +58,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         roomOptions.IsVisible = true;
         roomOptions.IsOpen = true;
 
-        PhotonNetwork.LoadLevel(roomNum);
+        
         PhotonNetwork.JoinOrCreateRoom(roomNum.ToString(), roomOptions, TypedLobby.Default);
         
     }
@@ -131,8 +131,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        room++;
-        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.LoadLevel(1);
 
 
         /*if(PhotonNetwork.IsMasterClient){
@@ -160,6 +159,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void LoseGame(){
         
         base.photonView.RPC("RPC_ChangeLevel", RpcTarget.MasterClient);
+        
         
     }
 

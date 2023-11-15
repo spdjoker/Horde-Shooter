@@ -7,11 +7,11 @@ using Photon.Pun;
 using Photon.Realtime;
 
 
-public class Enemy : MonoBehaviourPunCallbacks, IDamageable
+public class Enemy : MonoBehaviourPunCallbacks, IPunInstantiateMagicCallback, IDamageable
 {
     [SerializeField] EnemyData enemyData;
 
-    [SerializeField] NetworkManager networkManager;
+    [HideInInspector] public NetworkManager networkManager;
     private static bool gemPickedUp = false;
     bool hasGem = false;
     bool targetPlayers = true;
@@ -22,13 +22,13 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
     [SerializeField] private PhotonView enemy;
     private Vector3 spawnPosition;
     private bool destoyed = false;
-
+    private bool invincible = false;
     private Vector3[] playerSpawnPositions;
 
     private static Queue<Enemy> enemies = new Queue<Enemy>();
     private static int chasers = 0;
 
-    private static readonly int CHASER_COUNT = 3;
+    private static readonly int CHASER_COUNT = 1;
 
     private void Start() {
         health = enemyData.startHealth;
@@ -76,13 +76,18 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
             //This needs to be per player
             //TryMoveTowards(player.position, enemyData.range);
             if (PhotonNetwork.IsMasterClient){
-                TryMoveTowards(playerSpawnPositions[0], enemyData.range);
-                Debug.Log(playerSpawnPositions[0]);
-                return;
+                if(TryMoveTowards(playerSpawnPositions[0], enemyData.range)){
+                    return;
+                }
+                
             }else{
-                TryMoveTowards(playerSpawnPositions[1], enemyData.range);
-                return;
+                if(TryMoveTowards(playerSpawnPositions[1], enemyData.range)){
+                    return;
+                }
             }
+
+            Attack();
+            return;
             
         }
 
@@ -109,7 +114,6 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         position.y = transform.position.y;
         transform.LookAt(position);
         position = position - transform.position;
-
 
         if (position.magnitude > radius) {
             //Write the gravity velocity before it's overwritten
@@ -138,33 +142,32 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
     public void Damage(int amount)
     {
-        health -= amount;
-        if (health <= 0)
+        if(photonView.IsMine)
         {
-            // Drop gem;
-            if (hasGem)
+            health -= amount;
+            if (health <= 0)
             {
-                TeamManager.Instance.gem.SetParent(null);
-                gemPickedUp = false;
-            }
-            if (!targetPlayers) {
-                Enemy e = null;
-                while (!e && enemies.Count > 0)
+                // Drop gem;
+                if (hasGem)
                 {
-                    e = enemies.Dequeue();
+                    TeamManager.Instance.gem.SetParent(null);
+                    gemPickedUp = false;
                 }
-                if (e)
-                {
-                    e.targetPlayers = false;
-                } else
-                {
-                    chasers--;
+                if (!targetPlayers) {
+                    Enemy e = null;
+                    while (!e && enemies.Count > 0)
+                    {
+                        e = enemies.Dequeue();
+                    }
+                    if (e)
+                    {
+                        e.targetPlayers = false;
+                    } else
+                    {
+                        chasers--;
+                    }
                 }
-            }
-            Drop();
-            if(photonView.IsMine)
-            {
-                photonView.RPC("RPC_EnemyDeath", RpcTarget.OthersBuffered);
+                Drop(); 
                 PhotonNetwork.Destroy(gameObject);
             }
         }
@@ -180,9 +183,17 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         // Drop coins
     }
 
+    public void Attack()
+    {
+        networkManager.PlayerLoseHealth();
+
+        PhotonNetwork.Destroy(gameObject);
+        
+    }
+
     public void Lose()
     {
-        Debug.Log("You Lose");
+       networkManager.LoseGame();
     }
 
     [PunRPC]
@@ -191,5 +202,10 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         destoyed = true;
         
 
+    }
+
+    public void OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+        networkManager = GameObject.Find("/VR_Component/Network Manager").GetComponent<NetworkManager>();
     }
 }

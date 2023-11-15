@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Prototype
   m_EditorClassIdentifier: 
   startHealth: 1
-  speed: 3
+  speed: 4
   range: 1
   goldOnDrop: 0
-  teamFlags: -1
+  teamFlags: 2

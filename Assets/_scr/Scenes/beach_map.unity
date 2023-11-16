@@ -3200,7 +3200,7 @@ MonoBehaviour:
   redMaterial: {fileID: 0}
   greenMaterial: {fileID: 0}
   blueMaterial: {fileID: 0}
-  gem: {fileID: 0}
+  gem: {fileID: 1866762649}
   player: {fileID: 0}
   assignedTeam: 0
 --- !u!4 &274704775
@@ -45887,7 +45887,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh46816
+  m_Name: pb_Mesh34746
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -46280,6 +46280,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 149111d39d297d341bd3eceabec9dd30, type: 3}
+--- !u!4 &1866762649 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4108740487722483139, guid: 149111d39d297d341bd3eceabec9dd30,
+    type: 3}
+  m_PrefabInstance: {fileID: 1866762648}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1881055732
 GameObject:
   m_ObjectHideFlags: 0

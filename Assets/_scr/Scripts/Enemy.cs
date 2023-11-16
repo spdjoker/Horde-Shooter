@@ -16,7 +16,6 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
     bool hasGem = false;
     bool targetPlayers = true;
     int health;
-    bool isAttacking = false;
 
     [SerializeField] private Rigidbody rigidBody;
     [SerializeField] private Transform player;
@@ -89,8 +88,8 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
                     return;
                 }
             }
-
-            Attack();
+            StartCoroutine(AttackCoroutine());
+            
             return;
             
         }
@@ -115,15 +114,13 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
     }
 
     bool TryMoveTowards(Vector3 position, float radius) {
+        if (anim.GetBool("attacking")) {//If attacking is true
+            return false;
+        }
+
         position.y = transform.position.y;
         transform.LookAt(position);
         position = position - transform.position;
-
-            //Test statements to see if the animations work
-            //isAttacking = true;
-            //anim.SetBool("attacking", isAttacking); was here
-            //StartCoroutine(Wait());
-            //isAttacking = false;
 
         if (position.magnitude > radius) {
             //Write the gravity velocity before it's overwritten
@@ -148,11 +145,23 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
         TeamManager.Instance.gem.SetParent(transform);
     }
-    private IEnumerator Wait() {
-	    yield return new WaitForSeconds (10f);
-        isAttacking = false;
-        Debug.Log("isAttacking is false, enemy should kill itself now");
+    private IEnumerator AttackCoroutine(){
+        anim.SetBool("attacking", true);
+        networkManager.PlayerLoseHealth();
+        // Wait for the attack animation to complete
+        yield return new WaitForSeconds(1.75f);
+
+        anim.SetBool("attacking", false);
+        EnemyDeath();
     }
+    private IEnumerator DeathCoroutine(){
+        anim.SetBool("shot", true);
+        // Wait for the death animation to complete
+        yield return new WaitForSeconds(1f);
+
+        EnemyDeath();
+    }
+
 
     public void Damage(int amount)
     {
@@ -180,6 +189,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
                 }
             }
             Drop();
+            StartCoroutine(DeathCoroutine());
             if(photonView.IsMine)
             {
                 photonView.RPC("RPC_EnemyDeath", RpcTarget.OthersBuffered);
@@ -198,13 +208,9 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         // Drop coins
     }
 
-    public void Attack()
+    public void EnemyDeath()
     {
-        isAttacking = true;
-        anim.SetBool("attacking", isAttacking);
-        networkManager.PlayerLoseHealth();
-        StartCoroutine(Wait());
-        anim.SetBool("attacking", isAttacking);
+        //networkManager.PlayerLoseHealth();
         if(photonView.IsMine)
         {
             PhotonNetwork.Destroy(gameObject);

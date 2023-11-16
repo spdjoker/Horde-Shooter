@@ -4,14 +4,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using Photon.Pun;
 
-public class ShopManagerScript : MonoBehaviour
+public class ShopManagerScript : MonoBehaviourPunCallbacks
 {
     public int[,] shopItems = new int[5, 5];
     public float coins;
     public TMPro.TMP_Text CoinsTXT;
-    public GameObject objectToSpawn1;
-    public GameObject objectToSpawn2;
+    public string[] guns;
 
     // Start is called before the first frame update
     void Start()
@@ -48,13 +48,10 @@ public class ShopManagerScript : MonoBehaviour
             shopItems[3, ButtonRef.GetComponent<ButtonInfo>().ItemID]++;
             CoinsTXT.text = "Coins:" + coins.ToString();
             ButtonRef.GetComponent<ButtonInfo>().QuantityTxt.text = shopItems[3, ButtonRef.GetComponent<ButtonInfo>().ItemID].ToString();
-            if (ButtonRef.GetComponent<ButtonInfo>().ItemID == 1) { 
-                Instantiate(objectToSpawn1); 
-            }
-            else if (ButtonRef.GetComponent<ButtonInfo>().ItemID == 2)
-            {
-                Instantiate(objectToSpawn2);
-            }
+            
+            PhotonNetwork.Instantiate(guns[ButtonRef.GetComponent<ButtonInfo>().ItemID], transform.position, Quaternion.identity, 0); 
+            
+            
         }
     }
 

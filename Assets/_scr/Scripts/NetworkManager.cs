@@ -20,7 +20,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     int room = 0;
 
     private bool ready = false; 
-    private bool otherPlayerReady = false;
+    private bool otherPlayerReady = true;
 
 
 

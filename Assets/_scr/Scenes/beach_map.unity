@@ -3200,7 +3200,7 @@ MonoBehaviour:
   redMaterial: {fileID: 0}
   greenMaterial: {fileID: 0}
   blueMaterial: {fileID: 0}
-  gem: {fileID: 1481102204}
+  gem: {fileID: 0}
   player: {fileID: 0}
   assignedTeam: 0
 --- !u!4 &274704775
@@ -3811,6 +3811,21 @@ PrefabInstance:
       value: -5.26
       objectReference: {fileID: 0}
     - target: {fileID: 3761867175536412846, guid: eb3e99a9e2471a246a4ca594d4eb26d9,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4160530357224093872, guid: eb3e99a9e2471a246a4ca594d4eb26d9,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4160530357224093876, guid: eb3e99a9e2471a246a4ca594d4eb26d9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4160530358463551675, guid: eb3e99a9e2471a246a4ca594d4eb26d9,
         type: 3}
       propertyPath: sceneViewId
       value: 6
@@ -4648,7 +4663,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 85906b04a9e234740a182276e4006007,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85906b04a9e234740a182276e4006007,
         type: 3}
@@ -5853,7 +5868,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh283896
+  m_Name: pb_Mesh47190
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -7401,7 +7416,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ace92d7e1cd1c8a418293b1a5aa4537f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ace92d7e1cd1c8a418293b1a5aa4537f,
         type: 3}
@@ -37963,7 +37978,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 5621e2a9041122741be7bff32605e55b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5621e2a9041122741be7bff32605e55b,
         type: 3}
@@ -39493,7 +39508,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 5621e2a9041122741be7bff32605e55b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5621e2a9041122741be7bff32605e55b,
         type: 3}
@@ -40829,6 +40844,16 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4160530357224093872, guid: eb3e99a9e2471a246a4ca594d4eb26d9,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4160530358463551675, guid: eb3e99a9e2471a246a4ca594d4eb26d9,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4246039377205220988, guid: eb3e99a9e2471a246a4ca594d4eb26d9,
         type: 3}
       propertyPath: sceneViewId
@@ -41997,12 +42022,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1450258370}
   m_Mesh: {fileID: -241590943081668018, guid: 54030aa0ca3b9d742a84395ad54fddd1, type: 3}
---- !u!4 &1481102204 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4108740487722483139, guid: 149111d39d297d341bd3eceabec9dd30,
-    type: 3}
-  m_PrefabInstance: {fileID: 1866762648}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1484249378
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43130,7 +43149,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e5475a9a214661445a81bab491db7e11,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e5475a9a214661445a81bab491db7e11,
         type: 3}
@@ -45621,7 +45640,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh283878
+  m_Name: pb_Mesh47172
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -45868,7 +45887,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh283522
+  m_Name: pb_Mesh46816
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -46162,7 +46181,7 @@ PrefabInstance:
     - target: {fileID: 698546466995770746, guid: 149111d39d297d341bd3eceabec9dd30,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 698546466995770746, guid: 149111d39d297d341bd3eceabec9dd30,
         type: 3}
@@ -46222,7 +46241,7 @@ PrefabInstance:
     - target: {fileID: 4108740487722483139, guid: 149111d39d297d341bd3eceabec9dd30,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4108740487722483139, guid: 149111d39d297d341bd3eceabec9dd30,
         type: 3}
@@ -46257,7 +46276,7 @@ PrefabInstance:
     - target: {fileID: 4108740487722483165, guid: 149111d39d297d341bd3eceabec9dd30,
         type: 3}
       propertyPath: sceneViewId
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 149111d39d297d341bd3eceabec9dd30, type: 3}
@@ -47503,7 +47522,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 5621e2a9041122741be7bff32605e55b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5621e2a9041122741be7bff32605e55b,
         type: 3}
@@ -48686,7 +48705,7 @@ PrefabInstance:
     - target: {fileID: 6721412949723261072, guid: de05aac977bfa9042864d0e89171e6ba,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6721412949723261072, guid: de05aac977bfa9042864d0e89171e6ba,
         type: 3}

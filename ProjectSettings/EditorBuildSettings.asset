@@ -9,11 +9,8 @@ EditorBuildSettings:
     path: Assets/_scr/Scenes/Lobby.unity
     guid: e7227faa4c160cd46a095228b44e5831
   - enabled: 1
-    path: Assets/_scr/Scenes/beach_map.unity
-    guid: 68777ac9f374f1b43818e9014bfee400
-  - enabled: 1
-    path: Assets/_scr/Scenes/Lose.unity
-    guid: 20b708471acd2324b8f02be39cf27075
+    path: Assets/_scr/Scenes/map_test.unity
+    guid: ea9ebdb70b8a21642a07a03351c49d0b
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bfa1182bd221b4ca89619141f66f1260,
       type: 2}

@@ -14,8 +14,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public GameObject XROrigin;
     [SerializeField] TMP_Text readyText;
-    [SerializeField] int TeamHealth;
-    Hashtable customProperties = new Hashtable();
+    [SerializeField] public int TeamHealth;
+    public Hashtable customProperties = new Hashtable();
+    public ShopManagerScript healthy;
     public Vector3[] spawnPositions;
     int room = 0;
 
@@ -144,7 +145,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void PlayerLoseHealth(){
         customProperties = PhotonNetwork.CurrentRoom.CustomProperties;
-        customProperties["Health"] = (int)customProperties["Health"] - 1;
+        TeamHealth = (int)customProperties["Health"] - 1;
+        customProperties["Health"] = TeamHealth;
+        healthy.HealthTXT.text = "Health:" + TeamHealth.ToString();
         Debug.Log(customProperties["Health"]);
 
         if((int)customProperties["Health"] <= 0){

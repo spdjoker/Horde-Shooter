@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_scr/Scenes/Lobby.unity
+    path: Assets/_scr/Scenes/lobby.unity
     guid: e7227faa4c160cd46a095228b44e5831
   - enabled: 1
     path: Assets/_scr/Scenes/beach_map.unity

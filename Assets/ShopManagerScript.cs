@@ -10,6 +10,10 @@ public class ShopManagerScript : MonoBehaviour
     public int[,] shopItems = new int[5, 5];
     public float coins;
     public TMPro.TMP_Text CoinsTXT;
+    public TMPro.TMP_Text HealthTXT;
+
+    public NetworkManager health;
+
     public GameObject objectToSpawn1;
     public GameObject objectToSpawn2;
 
@@ -17,7 +21,7 @@ public class ShopManagerScript : MonoBehaviour
     void Start()
     {
         CoinsTXT.text = "Coins:" + coins.ToString();
-
+        HealthTXT.text = "Health:" + health.TeamHealth.ToString();
         //ID's
         shopItems[1, 1] = 1;
         shopItems[1, 2] = 2;

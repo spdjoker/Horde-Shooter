@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.AffordanceSystem.State;
+using Photon.Pun;
+using Unity.VisualScripting;
 
 [RequireComponent(typeof(XRGrabInteractable))]
 public class Gun : MonoBehaviour
@@ -15,10 +17,13 @@ public class Gun : MonoBehaviour
     float timeOfNextShot = 0.0f;
     bool isFiring = false;
 
+    private PhotonView photonView;
+
     private XRGrabInteractable grabInteractable;
 
     private void Start() {
         grabInteractable = GetComponent<XRGrabInteractable>();
+        photonView = GetComponent<PhotonView>();
 
         // Subscribing to the events
         grabInteractable.activated.AddListener(OnActivate);
@@ -56,6 +61,11 @@ public class Gun : MonoBehaviour
 
     private void OnDeactivate(DeactivateEventArgs args) {
         isFiring = false;
+    }
+
+
+    public void ShiftOwnership(){
+        photonView.RequestOwnership();
     }
 
     private bool CanFire() => Time.time > timeOfNextShot;

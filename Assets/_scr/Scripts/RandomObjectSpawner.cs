@@ -12,7 +12,7 @@ public struct MonsterData {
     public string prefab;
     public float spawnInterval;
 }
-public class RandomObjectSpawner : MonoBehaviourPunCallbacks
+public class RandomObjectSpawner : MonoBehaviourPunCallbacks, IPunInstantiateMagicCallback
 {
     //Enemies to spawn
     [SerializeField] private List <MonsterData> mobs = new List<MonsterData>(5);
@@ -20,6 +20,7 @@ public class RandomObjectSpawner : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject skull;
     [SerializeField] private float delay;
     [SerializeField] private Vector3[] enemySpawnPoints;
+    [SerializeField] private NetworkManager networkManager;
 
     //[SerializeField] private float randomIntervalRange = 1f;
 
@@ -47,7 +48,7 @@ public class RandomObjectSpawner : MonoBehaviourPunCallbacks
     void Start()
     {//Each enemy needs a coroutine (interval, enemyName)
         
-        StartCoroutine(SpawnEnemy(interval, enemyRandomizer(), delay));
+        StartCoroutine(SpawnEnemy(interval, "SKELETON", delay));
         
     }
     private float RandomInterval() => Random.Range(interval - 1,  interval + 1);
@@ -56,12 +57,9 @@ public class RandomObjectSpawner : MonoBehaviourPunCallbacks
     {
         yield return new WaitForSeconds(interval + wait);
         
-        string genericEnemy = enemyRandomizer();
-
         if(PhotonNetwork.IsMasterClient){
             int coin = Random.Range(0, 2);
-            int position = Random.Range(0, 4);
-
+            int position = Random.Range(0, 3);
             
             if(coin == 0)
             {
@@ -79,7 +77,7 @@ public class RandomObjectSpawner : MonoBehaviourPunCallbacks
             PhotonNetwork.Instantiate("RED_" + enemy, position, Quaternion.identity, 0);
         }*/
         
-        StartCoroutine(SpawnEnemy(interval, genericEnemy, delay));
+        StartCoroutine(SpawnEnemy(interval, "SKELETON", delay));
         
     }
     [PunRPC]
@@ -95,6 +93,15 @@ public class RandomObjectSpawner : MonoBehaviourPunCallbacks
     {
 
         PhotonNetwork.Instantiate("RED_" + enemy, enemySpawnPoints[position], Quaternion.identity, 0);
+    }
+    public void OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+        // Access the instantiated GameObject using info.photonView
+        GameObject instantiatedObject = info.photonView.gameObject;
+        Debug.Log(info.Sender);
+
+        // Now you have a reference to the instantiated GameObject
+        // You can do whatever you need with it
     }
 
 }

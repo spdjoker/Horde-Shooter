@@ -48,9 +48,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   XROrigin: {fileID: 0}
   readyText: {fileID: 0}
+  TeamHealth: 5
   spawnPositions:
-  - {x: 0.5, y: 0, z: -7}
-  - {x: 0.5, y: 0, z: -5}
+  - {x: -1, y: 0, z: -7}
+  - {x: -1, y: 0, z: -3}
+  - {x: 0, y: 2, z: 0}
 --- !u!114 &6600767112485303221
 MonoBehaviour:
   m_ObjectHideFlags: 0

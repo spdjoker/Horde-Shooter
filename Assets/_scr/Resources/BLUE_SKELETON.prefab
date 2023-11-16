@@ -1163,8 +1163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 44f2cef5c9dbe24488d47a4450f2f7be, type: 2}
-  networkManager: {fileID: 6600767112485303210, guid: 074b407abbbf87448ac0638036267f90,
-    type: 3}
+  networkManager: {fileID: 0}
   rigidBody: {fileID: 5576131994963797808}
   player: {fileID: 0}
   enemy: {fileID: 0}

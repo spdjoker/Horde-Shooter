@@ -3,7 +3,13 @@ guid: bdfdec0f2ab322f448d61669094c6396
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - gunData: {instanceID: 0}
+  - flashParticleSystem: {instanceID: 0}
+  - impactParticleSystem: {instanceID: 0}
+  - bulletTrailRenderer: {instanceID: 0}
+  - source: {instanceID: 0}
+  - clip: {fileID: 8300000, guid: 23f723f638780a04997ee89442fb3119, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

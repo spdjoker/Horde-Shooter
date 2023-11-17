@@ -149,11 +149,11 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
     }
     private IEnumerator AttackCoroutine(){
         anim.SetBool("attacking", true);
-        networkManager.PlayerLoseHealth();
         // Wait for the attack animation to complete
         yield return new WaitForSeconds(1.75f);
 
         anim.SetBool("attacking", false);
+        networkManager.PlayerLoseHealth();
         EnemyDeath();
     }
     private IEnumerator DeathCoroutine(){
@@ -166,10 +166,10 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
 
     public void Damage(int amount)
-    {
+    {  
         if (photonView.IsMine)
         {
-            
+            health -= amount;
             if (health <= 0)
             {
                 // Drop gem;
@@ -220,7 +220,8 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
     public void Lose()
     {
-       networkManager.LoseGame();
+        Debug.Log("Lose By Gem Capture");
+        networkManager.LoseGame();
     }
 
     [PunRPC]

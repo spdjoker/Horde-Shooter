@@ -131,8 +131,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        PhotonNetwork.LoadLevel(1);
-
+        base.photonView.RPC("RPC_ChangeLevelFirst", RpcTarget.MasterClient);
 
         /*if(PhotonNetwork.IsMasterClient){
             XROrigin.transform.position = spawnPositions[0];
@@ -166,6 +165,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RPC_ChangeLevel(){
         PhotonNetwork.LoadLevel(2);
+    }
+
+    [PunRPC]
+    private void RPC_ChangeLevelFirst(){
+        PhotonNetwork.LoadLevel(1);
     }
 
 }

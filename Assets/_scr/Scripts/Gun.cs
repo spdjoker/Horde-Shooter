@@ -21,6 +21,9 @@ public class Gun : MonoBehaviour
 
     private XRGrabInteractable grabInteractable;
 
+    public AudioSource source;
+    public AudioClip clip;
+
     private void Start() {
         grabInteractable = GetComponent<XRGrabInteractable>();
         photonView = GetComponent<PhotonView>();
@@ -76,6 +79,9 @@ public class Gun : MonoBehaviour
         Physics.Raycast(flashParticleSystem.transform.position, transform.forward, out hit, gunData.range);
 
         flashParticleSystem.Play();
+
+        //play sound
+        source.PlayOneShot(clip);
 
         TrailRenderer trail = Instantiate(bulletTrailRenderer, flashParticleSystem.transform.position, Quaternion.identity);
         StartCoroutine(SpawnTrail(trail, hit));

@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 {
     [SerializeField] EnemyData enemyData;
 
-    [SerializeField] NetworkManager networkManager;
+    public NetworkManager networkManager;
     private static bool gemPickedUp = false;
     bool hasGem = false;
     bool targetPlayers = true;
@@ -33,9 +33,11 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
     Animator anim;
 
     private void Start() {
+        networkManager = GameObject.Find("/VR_Component/Network Manager").GetComponent<NetworkManager>();
         health = enemyData.startHealth;
         playerSpawnPositions = networkManager.spawnPositions;
         anim = GetComponent<Animator>();
+        
 
         spawnPosition = transform.position;
         if (enemyData.teamFlags.HasFlag(EnemyData.TargetFlags.Gem))
@@ -147,11 +149,11 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
     }
     private IEnumerator AttackCoroutine(){
         anim.SetBool("attacking", true);
-        networkManager.PlayerLoseHealth();
         // Wait for the attack animation to complete
         yield return new WaitForSeconds(1.75f);
 
         anim.SetBool("attacking", false);
+        networkManager.PlayerLoseHealth();
         EnemyDeath();
     }
     private IEnumerator DeathCoroutine(){
@@ -164,36 +166,35 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
 
     public void Damage(int amount)
-    {
-        health -= amount;
-        if (health <= 0)
+    {  
+        if (photonView.IsMine)
         {
-            // Drop gem;
-            if (hasGem)
+            health -= amount;
+            if (health <= 0)
             {
-                TeamManager.Instance.gem.SetParent(null);
-                gemPickedUp = false;
-            }
-            if (!targetPlayers) {
-                Enemy e = null;
-                while (!e && enemies.Count > 0)
+                // Drop gem;
+                if (hasGem)
                 {
-                    e = enemies.Dequeue();
+                    TeamManager.Instance.gem.SetParent(null);
+                    gemPickedUp = false;
                 }
-                if (e)
+                if (!targetPlayers) 
                 {
-                    e.targetPlayers = false;
-                } else
-                {
-                    chasers--;
+                    Enemy e = null;
+                    while (!e && enemies.Count > 0)
+                    {
+                        e = enemies.Dequeue();
+                    }
+                    if (e)
+                    {
+                        e.targetPlayers = false;
+                    } else
+                    {
+                        chasers--;
+                    }
                 }
-            }
-            Drop();
-            StartCoroutine(DeathCoroutine());
-            if(photonView.IsMine)
-            {
-                photonView.RPC("RPC_EnemyDeath", RpcTarget.OthersBuffered);
-                PhotonNetwork.Destroy(gameObject);
+                Drop();
+                StartCoroutine(DeathCoroutine());
             }
         }
     }
@@ -219,7 +220,8 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
     public void Lose()
     {
-       networkManager.LoseGame();
+        Debug.Log("Lose By Gem Capture");
+        networkManager.LoseGame();
     }
 
     [PunRPC]
@@ -228,5 +230,10 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         destoyed = true;
         
 
+    }
+
+    public void OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+       
     }
 }

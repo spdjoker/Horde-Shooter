@@ -7,7 +7,7 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/_scr/Scenes/Lobby.unity
-    guid: e7227faa4c160cd46a095228b44e5831
+    guid: 06e30f67443767844839eade7e57d34d
   - enabled: 1
     path: Assets/_scr/Scenes/beach_map.unity
     guid: 68777ac9f374f1b43818e9014bfee400

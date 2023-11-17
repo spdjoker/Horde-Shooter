@@ -47,6 +47,7 @@ MonoBehaviour:
   - RPC_SpawnEnemyOther
   - RPC_EnemyDeath
   - RPC_ChangeLevel
+  - RPC_ChangeLevelFirst
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

@@ -418,7 +418,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 566d4eb3b9803d94d8ad7d5667df486d, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 0.15
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2577,6 +2577,11 @@ PrefabInstance:
     - target: {fileID: 6106501464935453589, guid: 186fbae5e77503a4aab7a29f8108bb26,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906064094565033063, guid: 186fbae5e77503a4aab7a29f8108bb26,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
